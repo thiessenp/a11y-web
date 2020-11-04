@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en-us">
+<head>
+	<meta charset="utf-8">
+	<title>a11y</title>
+	
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+
+	<style>
+		/* Taken from https://webaim.org/techniques/css/invisiblecontent/ */
+		.screenReaderOnly {
+			position:absolute;
+			left:-10000px;
+			top:auto;
+			width:1px;
+			height:1px;
+			overflow:hidden;
+		}
+	</style>
+<body>
+	<!-- note named anchors name="ID".. are no longer HTML(5) compliant -->
+	<a href="#mainContent" class="screenReaderOnly">Skip to main content</a>
+
+	<header>
+<pre>
+What are we doing? Adding accessibility semantics where AT could not derive to describe any UI (other than mobile, there
+is no standardized approach for touch interfaces across browsers).
+
+Element vs Role & Aria-Attributes:
+semantic element vs aria role + attributes? Element is preferred if it exists but not all AT support or older AT will
+not. ARIA roles and attributes will override the Element and is a way to to support old and new (more "progressive
+enhancement" like). (correct?)
+
+Dynamic Content:
+Live regions (related) must be in the initial static markup to be honored by AT. Live regions add to elements, or
+elements with live regions dynamically added will be ignored by AT.
+
+Roles: (move to  section later? or generic here specific e.g. below?)
+Landmark Roles, usually top level that act as themeatic containers. Use HTML section element if available instead.
+What Am I? Roles, make a promise that this thing does this role.
+
+States and Properties: (move to  section later? or generic here specific e.g. below?)
+TODO
+</pre>
+	</header>
+
+	<main id="mainContent">
+		<h1>a11y</h1>
+
+		<section>
+			<header>
+				<h2 aria-labelledby="exampleAltText">Alt Text</h2>
+<pre>
+-Should describe the intent or context of the image not random details e.g. Swiss flag against sky vs red white cross..
+-Is NOT Tooltip in title="show text on hover", is a tooltip and was an early developer mistake
+-If decoration can use alt="" to be valid HTML and ignored by AT or show image with CSS
+</pre>
+			</header>
+			<div class="example" id="exampleAltText">
+				<img
+						src="https://s3.amazonaws.com/user-media.venngage.com/832544-a70c56a571b24939746430c59d4f8b23.jpg"
+						width="100px"
+						title="info how to use this"
+						alt="Swiss flag against blue sky">
+			</div>
+		</section>
+
+		<section>
+			<header>
+				<h2 aria-labelledby="exampleLandMarks">Landmarks (<a href="https://www.w3.org/TR/wai-aria-practices/#html-sectioning-elements">Docs</a>)</h2>
+<pre>
+-Planning: Sectioned visual design -to-> Landmark Sections (everything should eventually be contained in a landmark role)
+-Logically map design sections into Top-Level Elements. Use HTML elements over ARIA Landmark Roles where possible:
+	main 	(alt role=main)
+	nav 	(alt role=navigation)
+	aside 	(alt role=complementary)
+	section (alt role=region)
+	footer 	(alt role=contentinfo)
+	article
+	xxx		(role=banner)
+
+	HERE?
+	aria-labeledby (visible), aria-labeled (invisible)
+</pre>
+			</header>
+			<div class="example" id="exampleLandMarks">
+				<p></p>
+			</div>
+		</section>
+
+
+	</main>
+
+</body>
+</html>

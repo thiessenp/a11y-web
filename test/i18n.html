@@ -1,0 +1,37 @@
+<!DOCTYPE HTML>
+<html lang="en" dir="ltr">
+<head>
+     <title>Internationalization</title>
+</head>
+<body>
+    <h1>Internationalization</h1>
+    <hr>
+
+    <h2>Languages</h2>
+    <hr>
+    <p>Note: Screen reader must support/enabled <strong>Automatic Language Switching</strong>. From my tests, not supported in screen readers: ChromeVox, NVDA,</p>
+    <section aria-labelledby="language-en-label">
+        <h1 id="language-en-label">English (no lang override)</h1>
+        <p>Hello this is a French saying <span>"Battre le fer pendant qu'il est chaud."</span>. <button>More Info</button></p>
+    </section>
+    <section aria-labelledby="language-fr-label">
+        <h1 id="language-fr-label">French Overrides</h1>
+        <p>Hello this is a French saying <span lang="fr">"Battre le fer pendant qu'il est chaud."</span>. <button lang="fr">Plus d'informations</button></p>
+    </section>
+    <section aria-labelledby="language-jp-label">
+        <h1 id="language-jp-label">Japanese Overrides</h1>
+        <p>Hello this is a Japanese saying <span lang="jp">案ずるより産むが易しい</span>. <button lang="jp">詳しくは</button></p>
+    </section>
+    <section aria-labelledby="language-ar-label">
+        <h1 id="language-ar-label">Arabic Overrides</h1>
+        <p>Hello this is a Arabic saying <span lang="ar" dir="rtl">"التكرار يعلّم الحمار."</span>. <button lang="ar" dir="rtl">معلومات اكثر</button></p>
+    </section>
+
+    <h2>Languages (container override)</h2>
+    <hr>
+    <section lang="fr" aria-labelledby="language-fr-container-label">
+        <h1 id="language-fr-container-label">Remplacements français</h1>
+        <p>"Battre le fer pendant qu'il est chaud." <button lang="fr">Plus d'informations</button></p>
+    </section>
+</body>
+</html>
