@@ -1,0 +1,121 @@
+<!DOCTPYE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8"/>
+    <title>Live Tests</title>
+</head>
+<body>
+    <main>
+        <h1>Live Tests</h1>
+        <p>Examples for testing focus on whether an Assistive Technology (AT) will correctly announce <strong>Live Regions</strong> on dynamic updates.</p>
+
+        <section>
+            <h2>Live Region Defaults</h2>
+            <p>Regions below have a aria-live=polite or aria-live=assertive with defaults of aria-relevant="additions text" aria-atomic="false".</p>
+            <div><label>Click to <button id="live-polite-button">Enable Polite default updates</button></label>. <span id="live-polite-label">Polite updates announced here:</span> <span aria-live=polite id="live-polite" aria-labelledby="live-polite-label"></span></div>
+            <div><label>Click to <button id="live-assertive-button">Enable Assertive default updates</button></label>. <span id="live-assertive-label">Assertive updates announced here:</span> <span aria-live=assertive id="live-assertive" aria-labelledby="live-assertive-label"></span></div>    
+        </section>
+
+        <section>
+            <h2>(TODO) Live Region Relevant</h2>
+            <p>Regions below have a aria-live=polite with a custom aria-relevant.</p>
+            <div><label>Click to <button id="live-YYY-button">Enable aria-relavant="additions"</button></label>. <span id="live-YYY-label">aria-relavant="additions" updates announced here:</span> <span aria-live=polite id="live-YYYY" aria-labelledby="live-YYY-label"></span></div>
+            <div><label>Click to <button id="live-YYY-button">Enable aria-relavant="removals"</button></label>. <span id="live-YYY-label">aria-relavant="removals" updates announced here:</span> <span aria-live=polite id="live-YYYY" aria-labelledby="live-YYY-label"></span></div>
+            <div><label>Click to <button id="live-YYY-button">Enable aria-relavant="text"</button></label>. <span id="live-YYY-label">aria-relavant="text" updates announced here:</span> <span aria-live=polite id="live-YYYY" aria-labelledby="live-YYY-label"></span></div>
+        </section> 
+        
+        <section>
+            <h2>(TODO) Live Region Atomic</h2>
+            <p>Regions below have a aria-live=polite with a custom aria-atomic.</p>
+            <div><label>Click to <button id="live-YYY-button">Enable aria-atomic="false"</button></label>. <span id="live-YYY-label">aria-atomic="false" updates announced here:</span> <span aria-live=polite id="live-YYYY" aria-labelledby="live-YYY-label"></span></div>
+            <div><label>Click to <button id="live-YYY-button">Enable aria-atomic="true"</button></label>. <span id="live-YYY-label">aria-atomic="true" updates announced here:</span> <span aria-live=polite id="live-YYYY" aria-labelledby="live-YYY-label"></span></div>
+        </section>
+        
+        <section>
+            <h2>(todo) Live Region Roles</h2>
+            <section>
+                <h3>role=log</h3>
+                <label id="role-log-label">Adds an element below to the log below.</label> <button id="role-log-button">add element to log</button> 
+                <ul role=log id="role-log-el"></ul>
+            </section>
+            <div><label>Click to <button id="live-YYY-button">Enable role="status"</button></label>. <span id="live-YYY-label">role="status" updates announced here:</span> <span aria-live=polite id="live-YYYY" aria-labelledby="live-YYY-label"></span></div>  
+            <div><label>Click to <button id="live-YYY-button">Enable role="alert"</button></label>, note default aria-live=assertive. <span id="live-YYY-label">role="alert" updates announced here:</span> <span aria-live=polite id="live-YYYY" aria-labelledby="live-YYY-label"></span></div>
+            <div><label>Click to <button id="live-YYY-button">Enable role="marquee"</button></label>. <span id="live-YYY-label">role="marquee" updates announced here:</span> <span aria-live=polite id="live-YYYY" aria-labelledby="live-YYY-label"></span></div>
+            <div><label>Click to <button id="live-YYY-button">Enable role="timer"</button></label>. <span id="live-YYY-label">role="timer" updates announced here:</span> <span aria-live=polite id="live-YYYY" aria-labelledby="live-YYY-label"></span></div>
+        </section>
+    </main>
+
+    <hr>
+
+    <asside aria-labelledby="log-of-testing-title">
+        <h2 id="log-of-testing-title">Log of Testing</h2>
+        <p>Tested on Windows 10 with combinations of screen readers Jaws, NVDA, Narrator, ChromeVox and browsers Chrome, Edge, FF, IE11.</p>
+        <ol>
+            <li>Date: TODO</li>
+        </ol>
+    </asside>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            //live-polite
+            const livePolite = document.querySelector('#live-polite');
+            const livePoliteButton = document.querySelector('#live-polite-button');
+            livePoliteButton.addEventListener('click', function() {
+                let n = 1;
+                (function update() {
+                    // Span/textNode treated as Inline & read as whole
+                    // const el = document.createTextNode(' ' + n++);
+                    const el = document.createElement('div');
+                    el.appendChild(document.createTextNode(n++));
+                    el.style.display = 'inline-block';
+                    livePolite.appendChild(el);
+                    if (n <= 50) { 
+                        setTimeout(update, 1000);
+                    }
+                })();
+            });
+
+            //live-assertive
+            const liveAssertive = document.querySelector('#live-assertive');
+            const liveAssertiveButton = document.querySelector('#live-assertive-button');
+            liveAssertiveButton.addEventListener('click', function() {
+                let n = 1;
+                (function update() {
+                    const el = document.createElement('div');
+                    el.appendChild(document.createTextNode('a'));
+                    el.style.display = 'inline-block';
+                    liveAssertive.appendChild(el);
+                    if (n <= 20) {
+                        n++; 
+                        setTimeout(update, 2000);
+                    }
+                })();
+            });
+        });
+
+
+        //role-log
+        const roleLogContent = document.querySelector('#role-log-el');
+        const roleLogButton  = document.querySelector('#role-log-button');
+        roleLogButton.addEventListener('click', function() {
+            const liEl = document.createElement('li');
+            liEl.appendChild(document.createTextNode('added a list element'));
+            roleLogContent.appendChild(liEl);
+        });
+
+
+        // function update(el, content) {
+        //     return function() {
+        //         el.innerHtml += content
+        //     }
+        // }
+
+        // function repeatUpdate(update, delay, condition) {
+        //     update();
+        //     if (typeof condition === undefined || !condition) { return }
+        //     setTimeout(repeatUpdate, delay);
+        // }
+    </script>
+</body>
+</html>
