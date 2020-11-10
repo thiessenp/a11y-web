@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8"/>
+	<title>Alt-Text Tests</title>
+</head>
+<body>
+	<main>
+		<h1>Alt-Text Tests</h1>
+		<p>Alt-text should describe the intent and or context of the image not random details. If the image adds no info, it can be marked decorative.</p>
+
+		<section>
+			<h2>Image Alt Texts</h2>
+			
+			<h3>alt="{description}"</h3>
+			<div>
+				<p>Image with alt-text content. Note title=.. to add additional info (tooltip does not equal alt-text)</p>
+				<img src="https://s3.amazonaws.com/user-media.venngage.com/832544-a70c56a571b24939746430c59d4f8b23.jpg" width="100px" 
+					title="info how to use this" alt="Swiss flag against blue sky">
+			</div>
+
+			<h3>alt=""</h3>
+			<div>
+				<p>Image without alt-text content, marked as decorative using alt=""</p>
+				<img src="https://s3.amazonaws.com/user-media.venngage.com/832544-a70c56a571b24939746430c59d4f8b23.jpg" width="100px" 
+				alt="">
+			</div>
+
+			<h3>aria-hidden="true"</h3>
+			<div>
+				<p>Image without alt-text content, marked as decorative (not exposed to a11y API) using aria-hidden=true</p>
+				<img src="https://s3.amazonaws.com/user-media.venngage.com/832544-a70c56a571b24939746430c59d4f8b23.jpg" width="100px"
+					aria-hidden="true">
+			</div>
+
+			<h3>role="none"</h3>
+			<div>
+				<p>Image without alt-text content, marked as decorative and <strong>taken out of DOM Tree</strong> using role="none"</p>
+				<img src="https://s3.amazonaws.com/user-media.venngage.com/832544-a70c56a571b24939746430c59d4f8b23.jpg" width="100px"
+					role="none">
+			</div>
+
+			<h3>role="presentation"</h3>
+			<div>
+				<p>Equivalent to role=none. <em>legacy, use role=none instead</em></p>
+				<img src="https://s3.amazonaws.com/user-media.venngage.com/832544-a70c56a571b24939746430c59d4f8b23.jpg" width="100px"
+					role="presentation">
+			</div>
+		</section>
+
+	</main>
+
+	<hr>
+	
+	<asside aria-labelledby="log-of-testing-title">
+        <h2 id="log-of-testing-title">Log of Testing</h2>
+        <p>Tested on Windows 10 with combinations of screen readers Jaws, NVDA, Narrator, ChromeVox and browsers Chrome, Edge, FF, IE11.</p>
+        <ol>
+            <li>Date: TODO</li>
+        </ol>
+    </asside>
+</body>
+</html>
