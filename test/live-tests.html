@@ -3,17 +3,31 @@
 <head>
     <meta charset="utf-8"/>
     <title>Live Tests</title>
+
 </head>
 <body>
     <main>
         <h1>Live Tests</h1>
         <p>Examples for testing focus on whether an Assistive Technology (AT) will correctly announce <strong>Live Regions</strong> on dynamic updates.</p>
+        <strong>Notes</strong>
+        <ul>
+            <li>Live updates announce the related aria-labelledby or aria-label with <em>each update</em>. Keep it brief to avoid being annoying.</li>
+            <li>DOM Inline additions (Text, Span..) cause Elements current contents plus addition to be read on the update (even if default atomic=false).</li>
+            <li>DOM Block and Inline-Block additions cause only the Block's content to be read on the update (with atomic=false)</li>
+            <li>DOM addition Styling changes behavior, addition treated as above Inline vs Block/Inline-Block described above.</li>
+        </ul>
 
         <section>
             <h2>Live Region Defaults</h2>
-            <p>Regions below have a aria-live=polite or aria-live=assertive with defaults of aria-relevant="additions text" aria-atomic="false".</p>
-            <div><label>Click to <button id="live-polite-button">Enable Polite default updates</button></label>. <span id="live-polite-label">Polite updates announced here:</span> <span aria-live=polite id="live-polite" aria-labelledby="live-polite-label"></span></div>
-            <div><label>Click to <button id="live-assertive-button">Enable Assertive default updates</button></label>. <span id="live-assertive-label">Assertive updates announced here:</span> <span aria-live=assertive id="live-assertive" aria-labelledby="live-assertive-label"></span></div>    
+            <p>Should announce only new content added to an element based on the <em>defaults aria-relevant="additions text" aria-atomic="false"</em></p>
+
+            <h3>aria-live=polite</h3>
+            <p>Polite updates announced below. <button id="live-polite-button">Start Polite updates</button></p>
+            <div aria-live=polite id="live-polite" aria-label="Polite update"></div>
+            
+            <h3>aria-live=assertive</h3>
+            <p>Assertive updates announced below. <button id="live-assertive-button">Start Assertive updates</button></p>
+            <div aria-live=assertive id="live-assertive" aria-label="Assertive update"></div>
         </section>
 
         <section>
@@ -32,12 +46,14 @@
         </section>
         
         <section>
-            <h2>(todo) Live Region Roles</h2>
+            <h2>Live Region Roles</h2>
+
             <section>
                 <h3>role=log</h3>
-                <label id="role-log-label">Adds an element below to the log below.</label> <button id="role-log-button">add element to log</button> 
-                <ul role=log id="role-log-el"></ul>
+                <p>Adds an elements to the log below. <button id="role-log-button">Start adding elements to log</button> </p>
+                <ul role=log aria-label="log update" id="role-log-el"></ul>
             </section>
+
             <div><label>Click to <button id="live-YYY-button">Enable role="status"</button></label>. <span id="live-YYY-label">role="status" updates announced here:</span> <span aria-live=polite id="live-YYYY" aria-labelledby="live-YYY-label"></span></div>  
             <div><label>Click to <button id="live-YYY-button">Enable role="alert"</button></label>, note default aria-live=assertive. <span id="live-YYY-label">role="alert" updates announced here:</span> <span aria-live=polite id="live-YYYY" aria-labelledby="live-YYY-label"></span></div>
             <div><label>Click to <button id="live-YYY-button">Enable role="marquee"</button></label>. <span id="live-YYY-label">role="marquee" updates announced here:</span> <span aria-live=polite id="live-YYYY" aria-labelledby="live-YYY-label"></span></div>
@@ -58,64 +74,46 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
-            //live-polite
+
+            function updateTextElement({parentEl, childEl=document.createElement('div'), styleAsInline=true, content=document.createTextNode('1'), delay=1000, max=20}) {
+                let count = 0;
+                function run() {
+                    setTimeout(run, delay);
+                    count++;
+                    if (count <= max) doUpdate();
+                }
+                function doUpdate(){
+                    // Note: Span/textNode treated as Inline & read as whole. 
+                    // Must be added to DOM as a block element to read as a distinct addition.
+                    const myChildEl = childEl.cloneNode(true);
+                    // Note: Appending the same node, will just overwrite/ignore that node. 
+                    // Clone it so added to DOM as epected. Weird..
+                    myChildEl.appendChild(content.cloneNode(true));
+                    if (styleAsInline) {
+                        myChildEl.style.display = 'inline-block';
+                    }
+                    parentEl.appendChild(myChildEl);
+                }
+                run();
+            }
+
+             //live-polite
             const livePolite = document.querySelector('#live-polite');
             const livePoliteButton = document.querySelector('#live-polite-button');
-            livePoliteButton.addEventListener('click', function() {
-                let n = 1;
-                (function update() {
-                    // Span/textNode treated as Inline & read as whole
-                    // const el = document.createTextNode(' ' + n++);
-                    const el = document.createElement('div');
-                    el.appendChild(document.createTextNode(n++));
-                    el.style.display = 'inline-block';
-                    livePolite.appendChild(el);
-                    if (n <= 50) { 
-                        setTimeout(update, 1000);
-                    }
-                })();
-            });
+            livePoliteButton.addEventListener('click', () => updateTextElement({parentEl: livePolite, delay: 500, max: 50}));
 
             //live-assertive
             const liveAssertive = document.querySelector('#live-assertive');
             const liveAssertiveButton = document.querySelector('#live-assertive-button');
-            liveAssertiveButton.addEventListener('click', function() {
-                let n = 1;
-                (function update() {
-                    const el = document.createElement('div');
-                    el.appendChild(document.createTextNode('a'));
-                    el.style.display = 'inline-block';
-                    liveAssertive.appendChild(el);
-                    if (n <= 20) {
-                        n++; 
-                        setTimeout(update, 2000);
-                    }
-                })();
-            });
-        });
+            liveAssertiveButton.addEventListener('click', () => updateTextElement({parentEl: liveAssertive, content: document.createTextNode('a')}));
+
+            //role-log
+            const roleLogContent = document.querySelector('#role-log-el');
+            const roleLogButton  = document.querySelector('#role-log-button');
+            roleLogButton.addEventListener('click', () => updateTextElement({parentEl: roleLogContent, childEl: document.createElement('li')}));         
 
 
-        //role-log
-        const roleLogContent = document.querySelector('#role-log-el');
-        const roleLogButton  = document.querySelector('#role-log-button');
-        roleLogButton.addEventListener('click', function() {
-            const liEl = document.createElement('li');
-            liEl.appendChild(document.createTextNode('added a list element'));
-            roleLogContent.appendChild(liEl);
-        });
-
-
-        // function update(el, content) {
-        //     return function() {
-        //         el.innerHtml += content
-        //     }
-        // }
-
-        // function repeatUpdate(update, delay, condition) {
-        //     update();
-        //     if (typeof condition === undefined || !condition) { return }
-        //     setTimeout(repeatUpdate, delay);
-        // }
+    });
     </script>
 </body>
 </html>
