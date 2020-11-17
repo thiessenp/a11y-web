@@ -3,7 +3,9 @@
 <head>
     <meta charset="utf-8"/>
     <title>Live Tests</title>
-
+    <style>
+        [aria-live],[role=log] {background-color: #ccc};
+    </style>
 </head>
 <body>
     <main>
@@ -14,7 +16,7 @@
             <li>Live updates announce the related aria-labelledby or aria-label with <em>each update</em>. Keep it brief to avoid being annoying.</li>
             <li>DOM Inline additions (Text, Span..) cause Elements current contents plus addition to be read on the update (even if default atomic=false).</li>
             <li>DOM Block and Inline-Block additions cause only the Block's content to be read on the update (with atomic=false)</li>
-            <li>DOM addition Styling changes behavior, addition treated as above Inline vs Block/Inline-Block described above.</li>
+            <li>DOM el Styling changes behavior, addition treated as Inline vs Block/Inline-Block described above.</li>
         </ul>
 
         <section>
@@ -23,19 +25,28 @@
 
             <h3>aria-live=polite</h3>
             <p>Polite updates announced below. <button id="live-polite-button">Start Polite updates</button></p>
-            <div aria-live=polite id="live-polite" aria-label="Polite update"></div>
+            <div aria-live=polite id="live-polite" aria-label="Polite update"><div>(updates here)</div></div>
             
             <h3>aria-live=assertive</h3>
             <p>Assertive updates announced below. <button id="live-assertive-button">Start Assertive updates</button></p>
-            <div aria-live=assertive id="live-assertive" aria-label="Assertive update"></div>
+            <div aria-live=assertive id="live-assertive" aria-label="Assertive update"><div>(updates here)</div></div>
         </section>
 
         <section>
-            <h2>(TODO) Live Region Relevant</h2>
+            <h2>Live Region Relevant</h2>
             <p>Regions below have a aria-live=polite with a custom aria-relevant.</p>
-            <div><label>Click to <button id="live-YYY-button">Enable aria-relavant="additions"</button></label>. <span id="live-YYY-label">aria-relavant="additions" updates announced here:</span> <span aria-live=polite id="live-YYYY" aria-labelledby="live-YYY-label"></span></div>
-            <div><label>Click to <button id="live-YYY-button">Enable aria-relavant="removals"</button></label>. <span id="live-YYY-label">aria-relavant="removals" updates announced here:</span> <span aria-live=polite id="live-YYYY" aria-labelledby="live-YYY-label"></span></div>
-            <div><label>Click to <button id="live-YYY-button">Enable aria-relavant="text"</button></label>. <span id="live-YYY-label">aria-relavant="text" updates announced here:</span> <span aria-live=polite id="live-YYYY" aria-labelledby="live-YYY-label"></span></div>
+
+            <h3>aria-relavant="additions"</h3>
+            <p>Additions announced below. <button id="relevant-additions-add-button">Add element</button> should be announce. Both <button id="relevant-additions-remove-button">Remove element</button> and <button id="relevant-additions-text-button">Add text</button> should <strong>not</strong> be announced on update.</p>
+            <div aria-live=polite aria-relevant="additions" id="relevant-additions" aria-label="Additions updates"><div>(updates here)</div></div>
+
+            <h3>aria-relavant="removals"</h3>
+            <p>Removals announced below. <button id="relevant-removals-remove-button">Remove element</button> should be announce. Both <button id="relevant-removals-add-button">Add element</button> and <button id="relevant-removals-text-button">Add text</button> should <strong>not</strong> be announced on update.</p>
+            <div aria-live="polite" aria-relevant="removals" id="relevant-removals" aria-label="Removal updates"><div>(updates here)</div></div>
+
+            <h3>aria-relavant="text"</h3>
+            <p>Text add/remove announced below. <button id="live-relevant-text-add-button">Add text</button> and <button id="live-relevant-text-remove-button">Remove text</button> should announce. Both <button id="live-relevant-text-add-el-button">Add element</button> and <button id="live-relevant-text-remove-el-button">Remove element</button> should <strong>not</strong> be announced on update.</button></p>
+            <div aria-live="polite" aria-relevant="text" id="relevant-text" aria-label="Text updates"><div>(updates here)</div></div>
         </section> 
         
         <section>
@@ -51,7 +62,7 @@
             <section>
                 <h3>role=log</h3>
                 <p>Adds an elements to the log below. <button id="role-log-button">Start adding elements to log</button> </p>
-                <ul role=log aria-label="log update" id="role-log-el"></ul>
+                <ul role=log aria-label="log update" id="role-log-el"><li>(updates here)</li></ul>
             </section>
 
             <div><label>Click to <button id="live-YYY-button">Enable role="status"</button></label>. <span id="live-YYY-label">role="status" updates announced here:</span> <span aria-live=polite id="live-YYYY" aria-labelledby="live-YYY-label"></span></div>  
@@ -71,49 +82,100 @@
         </ol>
     </asside>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        //live-polite
+        const livePolite = document.querySelector('#live-polite');
+        const livePoliteButton = document.querySelector('#live-polite-button');
+        livePoliteButton.addEventListener('click', () => repeatAddElement({parentEl: livePolite, delay: 500, max: 50}));
+
+        //live-assertive
+        const liveAssertive = document.querySelector('#live-assertive');
+        const liveAssertiveButton = document.querySelector('#live-assertive-button');
+        liveAssertiveButton.addEventListener('click', () => repeatAddElement({parentEl: liveAssertive, content: document.createTextNode('a')}));
+
+        //relevant=addition
+        const relevantAdditionsContent = document.querySelector('#relevant-additions');
+        const relevantAdditionsAddButton  = document.querySelector('#relevant-additions-add-button');
+        relevantAdditionsAddButton.addEventListener('click', () => addElement({parentEl: relevantAdditionsContent, content:document.createTextNode('added element')}));
+        const relevantAdditionsRemoveButton  = document.querySelector('#relevant-additions-remove-button');
+        relevantAdditionsRemoveButton.addEventListener('click', () => removeElement({parentEl: relevantAdditionsContent}));
+        const relevantAdditionsTextButton  = document.querySelector('#relevant-additions-text-button');
+        relevantAdditionsTextButton.addEventListener('click', () => addText({parentEl: relevantAdditionsContent, content: document.createTextNode('text (not announce)')}));
+
+        //relevant=removals
+        const relevantRemovalsContent = document.querySelector('#relevant-removals');
+        const relevantRemovalsRemoveButton = document.querySelector('#relevant-removals-remove-button');
+        relevantRemovalsRemoveButton.addEventListener('click', () => removeElement({parentEl: relevantRemovalsContent}));
+        const relevantRemovalsAddButton = document.querySelector('#relevant-removals-add-button');
+        relevantRemovalsAddButton.addEventListener('click', () => addElement({parentEl: relevantRemovalsContent, content:document.createTextNode('added element (not announce)')}));
+        const relevantRemovalsTextButton  = document.querySelector('#relevant-removals-text-button');
+        relevantRemovalsTextButton.addEventListener('click', () => addText({parentEl: relevantRemovalsContent, content: document.createTextNode('text (not announce)')}));
+
+        //relevant=text
+        const relevantTextContent = document.querySelector('#relevant-text');
+        const relevantTextAddButton = document.querySelector('#live-relevant-text-add-button');
+        relevantTextAddButton.addEventListener('click', () => addText({parentEl: relevantTextContent, content: document.createTextNode('text added')}));
+        const relevantTextRemoveButton = document.querySelector('#live-relevant-text-remove-button');
+        relevantTextRemoveButton.addEventListener('click', () => removeText({parentEl: relevantTextContent}));
+        const relevantTextAddElButton = document.querySelector('#live-relevant-text-add-el-button');
+        relevantTextAddElButton.addEventListener('click', () => addElement({parentEl: relevantTextContent, content:document.createTextNode('added element (not announce)')}));
+        const relevantTextRemoveElButton = document.querySelector('#live-relevant-text-remove-el-button');
+        relevantTextRemoveElButton.addEventListener('click', () => removeElement({parentEl: relevantTextContent}));
+
+        
+        //role-log
+        const roleLogContent = document.querySelector('#role-log-el');
+        const roleLogButton  = document.querySelector('#role-log-button');
+        roleLogButton.addEventListener('click', () => repeatAddElement({parentEl: roleLogContent, childEl: document.createElement('li'), styleAsInline: false}));
+});
 
 
-            function updateTextElement({parentEl, childEl=document.createElement('div'), styleAsInline=true, content=document.createTextNode('1'), delay=1000, max=20}) {
-                let count = 0;
-                function run() {
-                    setTimeout(run, delay);
-                    count++;
-                    if (count <= max) doUpdate();
-                }
-                function doUpdate(){
-                    // Note: Span/textNode treated as Inline & read as whole. 
-                    // Must be added to DOM as a block element to read as a distinct addition.
-                    const myChildEl = childEl.cloneNode(true);
-                    // Note: Appending the same node, will just overwrite/ignore that node. 
-                    // Clone it so added to DOM as epected. Weird..
-                    myChildEl.appendChild(content.cloneNode(true));
-                    if (styleAsInline) {
-                        myChildEl.style.display = 'inline-block';
-                    }
-                    parentEl.appendChild(myChildEl);
-                }
-                run();
-            }
+function addElement({parentEl, childEl=document.createElement('div'), content=document.createTextNode('add element')}) {
+    if (content) childEl.appendChild(content);
+    parentEl.appendChild(childEl);
+}
 
-             //live-polite
-            const livePolite = document.querySelector('#live-polite');
-            const livePoliteButton = document.querySelector('#live-polite-button');
-            livePoliteButton.addEventListener('click', () => updateTextElement({parentEl: livePolite, delay: 500, max: 50}));
+function removeElement({parentEl}) {
+    const removeEl = parentEl.children[0];
+    parentEl.removeChild(removeEl);
+}
 
-            //live-assertive
-            const liveAssertive = document.querySelector('#live-assertive');
-            const liveAssertiveButton = document.querySelector('#live-assertive-button');
-            liveAssertiveButton.addEventListener('click', () => updateTextElement({parentEl: liveAssertive, content: document.createTextNode('a')}));
+function addText({parentEl, content}) {
+    const appendTextTo = parentEl.children[0];
+    appendTextTo.appendChild(content)
+}
 
-            //role-log
-            const roleLogContent = document.querySelector('#role-log-el');
-            const roleLogButton  = document.querySelector('#role-log-button');
-            roleLogButton.addEventListener('click', () => updateTextElement({parentEl: roleLogContent, childEl: document.createElement('li')}));         
+function removeText({parentEl, content}) {
+    const firstEl = parentEl.children[0];
+    // Removes all text but the first word
+    const newText = firstEl.textContent.split(' ').shift();
+    firstEl.textContent = newText;
+}
 
 
-    });
-    </script>
+function repeatAddElement({parentEl, childEl=document.createElement('div'), styleAsInline=true, content=document.createTextNode('1'), delay=1000, max=20}) {
+    let count = 0;
+    function run() {
+        setTimeout(run, delay);
+        count++;
+        if (count <= max) doUpdate();
+    }
+    function doUpdate(){
+        // Note: Span/textNode treated as Inline & read as whole. 
+        // Must be added to DOM as a block element to read as a distinct addition.
+        const myChildEl = childEl.cloneNode(true);
+        // Note: Appending the same node, will just overwrite/ignore that node. 
+        // Clone it so added to DOM as epected. Weird..
+        myChildEl.appendChild(content.cloneNode(true));
+        if (styleAsInline) {
+            myChildEl.style.display = 'inline-block';
+        }
+        parentEl.appendChild(myChildEl);
+    }
+    run();
+}
+</script>
 </body>
 </html>
