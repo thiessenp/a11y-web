@@ -4,12 +4,12 @@
     <meta charset="utf-8"/>
     <title>Live Tests</title>
     <style>
-        [aria-live],[role=log] {background-color: #ccc};
+        /* [aria-live],[role=log],[role=status] {background-color: #ccc}; */
     </style>
 </head>
 <body>
     <main>
-        <h1>Live Tests</h1>
+        <h1>Live Region Tests</h1>
         <p>Examples for testing focus on whether an Assistive Technology (AT) will correctly announce <strong>Live Regions</strong> on dynamic updates.</p>
         <strong>Notes</strong>
         <ul>
@@ -17,6 +17,7 @@
             <li>DOM Inline additions (Text, Span..) cause Elements current contents plus addition to be read on the update (even if default atomic=false).</li>
             <li>DOM Block and Inline-Block additions cause only the Block's content to be read on the update (with atomic=false)</li>
             <li>DOM el Styling changes behavior, addition treated as Inline vs Block/Inline-Block described above.</li>
+            <li>Question: region atomic behavior with innerHTML vs. textContent updates for both Inline (text, span) vs Block</li>
         </ul>
 
         <section>
@@ -50,25 +51,49 @@
         </section> 
         
         <section>
-            <h2>(TODO) Live Region Atomic</h2>
-            <p>Regions below have a aria-live=polite with a custom aria-atomic.</p>
-            <div><label>Click to <button id="live-YYY-button">Enable aria-atomic="false"</button></label>. <span id="live-YYY-label">aria-atomic="false" updates announced here:</span> <span aria-live=polite id="live-YYYY" aria-labelledby="live-YYY-label"></span></div>
-            <div><label>Click to <button id="live-YYY-button">Enable aria-atomic="true"</button></label>. <span id="live-YYY-label">aria-atomic="true" updates announced here:</span> <span aria-live=polite id="live-YYYY" aria-labelledby="live-YYY-label"></span></div>
+            <h2>Live Region Atomic</h2>
+
+            <h3>aria-atomic="false"</h3>
+            <p>Non Atomic updates announced below. <button id="live-atomic-false-add-button">Add element</button> should only announce "itself".</p>
+            <div aria-live="polite" aria-atomic="false" id="relevant-atomic-false" aria-label="Atomic false update"><div>(updates here)</div></div>
+
+            <h3>aria-atomic="true"</h3>
+            <p>Non Atomic updates announced below. <button id="live-atomic-true-add-button">Add element</button> should only announce "itself".</p>
+            <div aria-live="polite" aria-atomic="true" id="relevant-atomic-true" aria-label="Atomic true update"><div>(updates here)</div></div>
         </section>
-        
+
         <section>
             <h2>Live Region Roles</h2>
 
             <section>
                 <h3>role=log</h3>
-                <p>Adds an elements to the log below. <button id="role-log-button">Start adding elements to log</button> </p>
+                <p>Adds an elements to the log below (repeats N times). <button id="role-log-button">Start adding elements to log</button> </p>
                 <ul role=log aria-label="log update" id="role-log-el"><li>(updates here)</li></ul>
             </section>
 
-            <div><label>Click to <button id="live-YYY-button">Enable role="status"</button></label>. <span id="live-YYY-label">role="status" updates announced here:</span> <span aria-live=polite id="live-YYYY" aria-labelledby="live-YYY-label"></span></div>  
-            <div><label>Click to <button id="live-YYY-button">Enable role="alert"</button></label>, note default aria-live=assertive. <span id="live-YYY-label">role="alert" updates announced here:</span> <span aria-live=polite id="live-YYYY" aria-labelledby="live-YYY-label"></span></div>
-            <div><label>Click to <button id="live-YYY-button">Enable role="marquee"</button></label>. <span id="live-YYY-label">role="marquee" updates announced here:</span> <span aria-live=polite id="live-YYYY" aria-labelledby="live-YYY-label"></span></div>
-            <div><label>Click to <button id="live-YYY-button">Enable role="timer"</button></label>. <span id="live-YYY-label">role="timer" updates announced here:</span> <span aria-live=polite id="live-YYYY" aria-labelledby="live-YYY-label"></span></div>
+            <section>
+                <h3>role="status"</h3>
+                <p>Adds an element to the status element below. <button id="role-status-button">Add element</button> </p>
+                <div role=status aria-label="status update" id="role-status"><div>(updates here)</div></div>
+            </section>
+
+            <section>
+                <h3>role="alert"</h3>
+                <p>Adds an element to the alert element below. <button id="role-alert-button">Add element</button> </p>
+                <div role=alert aria-label="alert update" id="role-alert"><div>(updates here)</div></div>
+            </section>
+
+            <section>
+                <h3>role="marquee" (Not Supported NVDA?)</h3>
+                <p>Adds an element to the marquee element below. <button id="role-marquee-button">Add element</button> </p>
+                <div role=marquee aria-label="marquee update" id="role-marquee"><div>(updates here)</div></div>
+            </section>
+
+            <section>
+                <h3>role="timer" (Not Supported NVDA?)</h3>
+                <p>Adds an element to the timer element below. <button id="role-timer-button">Start countdown</button> </p>
+                <div role="timer" aria-label="timer update" id="role-timer">20</div>
+            </section>
         </section>
     </main>
 
@@ -124,11 +149,39 @@
         const relevantTextRemoveElButton = document.querySelector('#live-relevant-text-remove-el-button');
         relevantTextRemoveElButton.addEventListener('click', () => removeElement({parentEl: relevantTextContent}));
 
-        
+        //atomic
+        const relevantAtomicFalseContent = document.querySelector('#relevant-atomic-false');
+        const relevantAtomicFalseAddButton = document.querySelector('#live-atomic-false-add-button');
+        relevantAtomicFalseAddButton.addEventListener('click', () => addElement({parentEl: relevantAtomicFalseContent, content:document.createTextNode('added element (announce only this)')}));
+
+        const relevantAtomicTrueContent = document.querySelector('#relevant-atomic-true');
+        const relevantAtomicTrueAddButton = document.querySelector('#live-atomic-true-add-button');
+        relevantAtomicTrueAddButton.addEventListener('click', () => addElement({parentEl: relevantAtomicTrueContent, content:document.createTextNode('added element (announce entire thing)')}));
+
         //role-log
         const roleLogContent = document.querySelector('#role-log-el');
         const roleLogButton  = document.querySelector('#role-log-button');
         roleLogButton.addEventListener('click', () => repeatAddElement({parentEl: roleLogContent, childEl: document.createElement('li'), styleAsInline: false}));
+
+        //role-status
+        const roleStatusContent = document.querySelector('#role-status');
+        const roleStatusButton  = document.querySelector('#role-status-button');
+        roleStatusButton.addEventListener('click', () => addElement({parentEl: roleStatusContent, childEl: document.createElement('div')}));
+        
+        //role-alert
+        const roleAlertContent = document.querySelector('#role-alert');
+        const roleAlertButton  = document.querySelector('#role-alert-button');
+        roleAlertButton.addEventListener('click', () => addElement({parentEl: roleAlertContent, childEl: document.createElement('div')}));
+
+        //role-marquee
+        const roleMarqueeContent = document.querySelector('#role-marquee');
+        const roleMarqueeButton  = document.querySelector('#role-marquee-button');
+        roleMarqueeButton.addEventListener('click', () => repeatAddElement({parentEl: roleMarqueeContent, childEl: document.createElement('div'), styleAsInline: true}));
+
+        //role-timer
+        const roleTimerContent = document.querySelector('#role-timer');
+        const roleTimerButton  = document.querySelector('#role-timer-button');
+        roleTimerButton.addEventListener('click', () => startTimer({parentEl: roleTimerContent}));
 });
 
 
@@ -154,7 +207,6 @@ function removeText({parentEl, content}) {
     firstEl.textContent = newText;
 }
 
-
 function repeatAddElement({parentEl, childEl=document.createElement('div'), styleAsInline=true, content=document.createTextNode('1'), delay=1000, max=20}) {
     let count = 0;
     function run() {
@@ -175,6 +227,23 @@ function repeatAddElement({parentEl, childEl=document.createElement('div'), styl
         parentEl.appendChild(myChildEl);
     }
     run();
+}
+
+/**
+ * Taken from out of laziness: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/ARIA_timer_role
+ */
+function startTimer({parentEl}) {
+  // get the number of seconds
+   let seconds = parseInt(parentEl.innerText);
+  // remove a second
+  // updated the content of timer
+  parentEl.innerText = --seconds
+  // if timer != 0, setTimeout
+  if (seconds) {
+    setTimeout( function() {
+      startTimer({parentEl});
+    }, 1000);
+  }
 }
 </script>
 </body>
