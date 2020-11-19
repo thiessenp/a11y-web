@@ -103,7 +103,30 @@
         <h2 id="log-of-testing-title">Log of Testing</h2>
         <p>Tested on Windows 10 with combinations of screen readers Jaws, NVDA, Narrator, ChromeVox and browsers Chrome, Edge, FF, IE11.</p>
         <ol>
-            <li>Date: TODO</li>
+            <li>Date: November 19 2020
+<pre>
+Jaws/NVDA + Chrome/Edge/FF:
+- do not support roles marquee and timer (updates not announced)
+
+NVDA + Chrome:
+- aria-live=polite/assertive label announced after update can get mixed up between simultaneous updates
+- aria-relevant=removals nothing announced for removals
+
+NVDA + Firefox (works excellent):
+- (good) announces content, not label (correct?)
+
+NVDA/Jaws + Edge:
+- <strong>aria-live completely not supported, only label announces on an update? (for real?! double check, also try narrator)</strong>
+
+Jaws + Firefox
+- relevant=additons also announces text addtitions
+- relevant=text also announces add element
+
+Jaws + Chrome:
+- aria-relevant=removals incorrectly announces text addtions
+- aria-relevant=text incorrectly announces adding element
+</pre>                    
+            </li>
         </ol>
     </asside>
 
