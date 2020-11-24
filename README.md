@@ -1,2 +1,2 @@
 # a11y-web
-accessibility widgets and tests (Work In Progress)
+accessibility stuff and tests (Work In Progress)
