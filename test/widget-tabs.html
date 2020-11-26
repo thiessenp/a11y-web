@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8"/>
+    <title>Widget Tabs Tests</title>
+</head>
+<body>
+    <main>
+        <h1>Widget Tabs Tests</h1>
+        <p>Examples for testing focus on whether the Tabs implementation matches the behavior in the WAI-ARIA Practices and for sanity the AOL DHTML Style Guide.</p>
+
+        <section>
+            <h2>Horizontal Tabs using links</h2>
+<!--
+    Note sure:
+
+    # note: use JS to left/right tablist, down active tabpanel
+    # note: responsive, tablist=vertical small screen (same beh4scrnrdr
+-->
+            <ul role="tablist" aria-label="Example Tab Sections">  
+                <li role="presentation">
+                    <!-- no tabindex so key around it -->
+                    <a id="tab1-links" href="#section1-links" role="tab" aria-controls="section1-links" aria-selected="true">	
+                        Section 1
+                    </a>
+                </li>
+                <li role="presentation">
+                    <a id="tab2-links" href="#section2-links" role="tab" aria-controls="section2-links" tabindex="-1">
+                        Section 2
+                    </a>
+                </li>
+                <li role="presentation">
+                    <a id="tab3-links" href="#section3-links" role="tab" aria-controls="section2-links" tabindex="-1">
+                        Section 3
+                    </a>
+                </li>
+            </ul>  
+            <section id="section1-links" role="tabpanel" aria-labelledby="tab1-links" tabindex="0" >  
+                Section 1 Tab Panel
+            </section>  
+            <section id="section2-links" role="tabpanel" aria-labelledby="tab2-links" tabindex="0" hidden="">  
+                Section 2 Tab Panel
+            </section>  
+            <section id="section3-links" role="tabpanel" aria-labelledby="tab3-links" tabindex="0" hidden="">
+                Section 3 Tab Panel
+            </section>
+        </section>        
+
+        
+        <h2>Horizontal Tabs using buttons</h2>
+    </main>
+
+    <hr>
+
+
+    <!-- <script type="module" src="./index.js"></script> -->
+    <script  src="../dist/a11y-web.js"></script>
+
+    <script>
+        // import a11yWeb from '../dist/a11y-web.js';
+        // import {tabs} from '../dist/a11y-web.js';
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Hi')
+            console.log(a11yWeb.tabs())
+            // console.log(tabs)
+            // Using native a and button so shouldn't need - knw.keynav.init()
+        });
+
+    </script>
+</body>
+</html>
