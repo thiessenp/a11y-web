@@ -5,8 +5,9 @@ node_modules
 /.pnp
 .pnp.js
 
-# production -- Include with release
+# production -- Include with release, not repo
 # dist
+index.js
 
 # misc
 .DS_Store
@@ -17,6 +18,3 @@ yarn-error.log*
 # probably not a good idea to commit lock files to the repo (just use for builds)
 package-lock.json
 npm-shrinkwrap.json
-
-# Temp
-keynav-web
