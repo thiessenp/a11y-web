@@ -1,8 +1,7 @@
-import tabs from './tabs.js';
+import Tabs from './tabs.js';
 
-console.log('main index');
-
-export {
-    tabs,
-}
-
+const A11yWeb = {
+    Tabs
+};
+console.log('index A11yWeb', A11yWeb)
+export default A11yWeb;

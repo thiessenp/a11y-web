@@ -17,10 +17,10 @@
     # note: use JS to left/right tablist, down active tabpanel
     # note: responsive, tablist=vertical small screen (same beh4scrnrdr
 -->
-            <ul role="tablist" aria-label="Example Tab Sections">  
+            <ul role="tablist" aria-label="Example Tab Sections" data-ally-web-tablist>  
                 <li role="presentation">
                     <!-- no tabindex so key around it -->
-                    <a id="tab1-links" href="#section1-links" role="tab" aria-controls="section1-links" aria-selected="true">	
+                    <a id="tab1-links" href="#section1-links" role="tab" aria-controls="section1-links" aria-selected="true" tabindex="-1">	
                         Section 1
                     </a>
                 </li>
@@ -35,13 +35,13 @@
                     </a>
                 </li>
             </ul>  
-            <section id="section1-links" role="tabpanel" aria-labelledby="tab1-links" tabindex="0" >  
+            <section id="section1-links" role="tabpanel" aria-labelledby="tab1-links" tabindex="0" data-ally-web-tablpanel>  
                 Section 1 Tab Panel
             </section>  
-            <section id="section2-links" role="tabpanel" aria-labelledby="tab2-links" tabindex="0" hidden="">  
+            <section id="section2-links" role="tabpanel" aria-labelledby="tab2-links" tabindex="0" hidden="" data-ally-web-tablpanel>  
                 Section 2 Tab Panel
             </section>  
-            <section id="section3-links" role="tabpanel" aria-labelledby="tab3-links" tabindex="0" hidden="">
+            <section id="section3-links" role="tabpanel" aria-labelledby="tab3-links" tabindex="0" hidden="" data-ally-web-tablpanel>
                 Section 3 Tab Panel
             </section>
         </section>        
@@ -54,16 +54,18 @@
 
 
     <!-- <script type="module" src="./index.js"></script> -->
-    <script  src="../dist/a11y-web.js"></script>
+    <script src="../index.js"></script>
 
     <script>
         // import a11yWeb from '../dist/a11y-web.js';
         // import {tabs} from '../dist/a11y-web.js';
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('Hi')
-            console.log(a11yWeb.tabs())
-            // console.log(tabs)
-            // Using native a and button so shouldn't need - knw.keynav.init()
+            console.log('html A11yWeb=', A11yWeb);
+            
+            // const tabs = new A11yWeb.Tabs();
+            // tabs.init();
+
+            A11yWeb.Tabs.init();
         });
 
     </script>

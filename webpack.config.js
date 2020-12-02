@@ -4,10 +4,10 @@ const path = require('path');
 module.exports = {
     entry: path.resolve(__dirname, "src/index.js"),
     output: {
-        path: path.resolve(__dirname, "dist"),
-        filename: 'a11y-web.js',
+        path: path.resolve(__dirname, ''),
+        filename: 'index.js',
         // Var lib exposed as
-        library: 'a11yWeb',
+        library: 'A11yWeb',
         libraryTarget:'umd'
     },
 	module: {

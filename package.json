@@ -2,7 +2,7 @@
   "name": "a11y-web",
   "version": "0.1.0",
   "description": "a11y WIP",
-  "main": "dist/a11y-web.js",
+  "main": "index.js",
   "scripts": {
     "start": "webpack-cli --watch --config webpack.config.js",
     "build": "webpack --mode=production",
@@ -13,13 +13,13 @@
     "url": "git+https://github.com/thiessenp/a11y-web.git"
   },
   "author": "thiessenp",
-  "license": "MIT",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/thiessenp/a11y-web/issues"
   },
   "homepage": "https://github.com/thiessenp/a11y-web#readme",
   "dependencies": {
-    "keynav-web": "^1.0.4",
+    "keynav-web": "^1.0.12",
     "lodash": "^4.17.20"
   },
   "devDependencies": {
@@ -30,9 +30,11 @@
     "webpack-cli": "^4.2.0"
   },
   "babel": {
-    "presets": ["@babel/preset-env"]
+    "presets": [
+      "@babel/preset-env"
+    ]
   },
   "files": [
-    "dist"
+    "index.js"
   ]
 }

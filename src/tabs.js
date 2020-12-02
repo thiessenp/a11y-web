@@ -5,15 +5,25 @@
 //      updates tab item state &
 //      update tab panel state & shows active tab pannel
 
+// import KeynavWeb from 'keynav-web';
+import {keynav} from 'keynav-web';  // --Better for tree shaking?
 
-import knw from 'keynav-web';
+keynav.dataSelectorList = 'data-ally-web-tablist';
 
-function tabs() {
-    console.log('knw', knw)
-    console.log('taaaaaaaaaaaaaaaaaaaaaaaaLKJHLKJHLKJHbs')
+// class Tabs {
+//     constructor(el) {
+//         this.tabsEl = el;
+//     }
 
+//     init(el=this.tabsEl) {
+//         keynav.init(el);
+//     }
+// }
 
-    return 'test success tabs';
+const Tabs = {}
+
+Tabs.init = function(tabsEl) {
+    keynav.init(tabsEl);
 }
 
-export default tabs;
+export default Tabs;
