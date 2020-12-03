@@ -1,7 +1,11 @@
 import Tabs from './tabs.js';
 
-const A11yWeb = {
+// Stoped and restarted Webkit build then - worked - cache?
+// const A11yWeb = {
+//     tabs: Tabs
+// };
+// export default A11yWeb;
+
+export {
     Tabs
-};
-console.log('index A11yWeb', A11yWeb)
-export default A11yWeb;
+}

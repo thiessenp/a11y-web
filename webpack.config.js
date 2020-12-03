@@ -2,15 +2,41 @@
 const path = require('path');
 
 module.exports = {
-    entry: path.resolve(__dirname, "src/index.js"),
+    entry: {
+        // Source file (main) path to bundle.
+        //
+        // -Could also- define as individual objects (chunks)
+        // main...
+        // keynav: path.resolve(__dirname, "src/keynav.js"),
+        // hotkeys: path.resolve(__dirname, "src/hotkeys.js"),
+        main: path.resolve(__dirname, "src/index.js"),
+    },
     output: {
-        path: path.resolve(__dirname, ''),
+        path: path.resolve(__dirname, './'),
         filename: 'index.js',
-        // Var lib exposed as
+        
+        // Var/Module default name lib exposed as.
+        // DEBUG: WK suddenly missing sub modules? Try update name, build, undo build
         library: 'A11yWeb',
-        libraryTarget:'umd'
+
+        // umd = Works with CommonJS and ES Modules
+        libraryTarget: 'umd',
+
+        // Note: bellow may not be needed but may help
+        // libraryExport: 'default',       
+        // umdNamedDefine: true
+    },
+    // Externalize these dependencies to reduce bundle size
+    externals: {
+        lodash: {
+            commonjs: 'lodash',
+            commonjs2: 'lodash',
+            amd: 'lodash',
+            root: '_',
+        },
     },
 	module: {
+        // Processors
         rules: [
             // Run Babel for any JS files (exluding node_modules)
             {
@@ -18,18 +44,20 @@ module.exports = {
                 exclude: /node_modules/,
                 use: "babel-loader",
             },
-        //   {
-        //     test: /.png$/,
-        //     use: 'base64-image-loader'
-        //   },
-        //   {
-        //     test: /.css$/,
-        //     use: 'css-content-loader'
-        //   }
+            // Images
+            //   {
+            //     test: /.png$/,
+            //     use: 'base64-image-loader'
+            //   },
+            // CSS
+            //   {
+            //     test: /.css$/,
+            //     use: 'css-content-loader'
+            //   }
+            // Many others
         ]
     },
-
     // Development to allow viewing the source
-    // IMPORTANT: build step should compress with `mode=production`
+    // IMPORTANT: build step should compress with `--mode=production`
     mode: "development", 
 };

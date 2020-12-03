@@ -8,7 +8,8 @@
 // import KeynavWeb from 'keynav-web';
 import {keynav} from 'keynav-web';  // --Better for tree shaking?
 
-keynav.dataSelectorList = 'data-ally-web-tablist';
+
+
 
 // class Tabs {
 //     constructor(el) {
@@ -22,7 +23,11 @@ keynav.dataSelectorList = 'data-ally-web-tablist';
 
 const Tabs = {}
 
+Tabs.dataSelectorList = 'data-ally-web-tablist';
+
 Tabs.init = function(tabsEl) {
+    // Setup keynav for Tabslist
+    keynav.dataSelectorList = Tabs.dataSelectorList;
     keynav.init(tabsEl);
 }
 
