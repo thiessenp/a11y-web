@@ -1,4 +1,5 @@
-import Tabs from './tabs.js';
+import {Tabs} from './tabs.js';
+import {Tablist} from './tabslist.js';
 
 // Stoped and restarted Webkit build then - worked - cache?
 // const A11yWeb = {
@@ -7,5 +8,6 @@ import Tabs from './tabs.js';
 // export default A11yWeb;
 
 export {
-    Tabs
+    Tabs,
+    Tablist
 }

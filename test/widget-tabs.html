@@ -9,39 +9,48 @@
         <h1>Widget Tabs Tests</h1>
         <p>Examples for testing focus on whether the Tabs implementation matches the behavior in the WAI-ARIA Practices and for sanity the AOL DHTML Style Guide.</p>
 
-        <section>
-            <h2>Horizontal Tabs using links</h2>
 <!--
     Note sure:
 
     # note: use JS to left/right tablist, down active tabpanel
     # note: responsive, tablist=vertical small screen (same beh4scrnrdr
 -->
-            <ul role="tablist" aria-label="Example Tab Sections" data-ally-web-tablist>  
+
+        <!-- Required: Tab container selector, or will default to document (allows only 1 Tabs list and less performant) -->
+        <section class="tabContainer1">
+            <h2>Horizontal Tabs using links</h2>
+            <ul role="tablist" aria-label="Example Tab Sections" data-ayw-tablist>  
                 <li role="presentation">
+
+>>>>>>>>>>>>>>>>>>>>>>>>>>
+LEFT OFF HERE
+anchors causing keynav to lose focus on activate (enter). 
+Hook up anchors, then again with buttons. (or just buttons...)
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
                     <!-- no tabindex so key around it -->
-                    <a id="tab1-links" href="#section1-links" role="tab" aria-controls="section1-links" aria-selected="true" tabindex="-1">	
+                    <a id="tab1-links" href="#section1-links" role="tab" aria-controls="section1-links" aria-selected="true" tabindex="-1" data-ayw-tab>	
                         Section 1
                     </a>
                 </li>
                 <li role="presentation">
-                    <a id="tab2-links" href="#section2-links" role="tab" aria-controls="section2-links" tabindex="-1">
+                    <a id="tab2-links" href="#section2-links" role="tab" aria-controls="section2-links" tabindex="-1" data-ayw-tab>
                         Section 2
                     </a>
                 </li>
                 <li role="presentation">
-                    <a id="tab3-links" href="#section3-links" role="tab" aria-controls="section2-links" tabindex="-1">
+                    <a id="tab3-links" href="#section3-links" role="tab" aria-controls="section3-links" tabindex="-1" data-ayw-tab>
                         Section 3
                     </a>
                 </li>
             </ul>  
-            <section id="section1-links" role="tabpanel" aria-labelledby="tab1-links" tabindex="0" data-ally-web-tablpanel>  
+            <section id="section1-links" role="tabpanel" aria-labelledby="tab1-links" tabindex="0" data-ayw-tabpanel>  
                 Section 1 Tab Panel
             </section>  
-            <section id="section2-links" role="tabpanel" aria-labelledby="tab2-links" tabindex="0" hidden="" data-ally-web-tablpanel>  
+            <section id="section2-links" role="tabpanel" aria-labelledby="tab2-links" tabindex="0" hidden="" data-ayw-tabpanel>  
                 Section 2 Tab Panel
             </section>  
-            <section id="section3-links" role="tabpanel" aria-labelledby="tab3-links" tabindex="0" hidden="" data-ally-web-tablpanel>
+            <section id="section3-links" role="tabpanel" aria-labelledby="tab3-links" tabindex="0" hidden="" data-ayw-tabpanel>
                 Section 3 Tab Panel
             </section>
         </section>        
@@ -58,10 +67,20 @@
         console.log('A11yWeb=', A11yWeb);
 
         document.addEventListener('DOMContentLoaded', function() {
-            // const tabs = new A11yWeb.Tabs();
+            // // const tabs = new A11yWeb.Tabs();
+            // // tabs.init();
+
+            // const optionaTabContainerEl = document.querySelector('.tabContainer1');
+
+            // //A11yWeb.Tabs.init(optionaTabContainerEl);
+            // const tabs = new A11yWeb.Tabs({
+            //     containerEl: optionaTabContainerEl
+            // });
             // tabs.init();
 
-            A11yWeb.Tabs.init();
+            // const listsOfTabslist = A11yWeb.Tablist.createListsFromDOM();
+            A11yWeb.Tabs.init()
+            // console.log('listsOfTabslist=', listsOfTabslist)
         });
     </script>
 </body>

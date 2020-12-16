@@ -5,30 +5,27 @@
 //      updates tab item state &
 //      update tab panel state & shows active tab pannel
 
-// import KeynavWeb from 'keynav-web';
-import {keynav} from 'keynav-web';  // --Better for tree shaking?
+import {Tablist} from './tabslist';
 
 
+export const Tabs = {
+    initialized: false,
+    // May be useful, should arguably remove since not using now
+    lists: [],
+    init: function(props={}) {
+        if (!this.initialized) {
+            const items = Tablist.createListsFromDOM({
+                selectorTablist: props.selectorTablist || '[data-ayw-tablist]',
+                selectorTab: props.selectorTab || '[data-ayw-tab]'
+            });
 
+            this.lists = Tablist.buildLists({
+                items,
+                activateCb: props.activateCb,
+                deactivateCb: props.deactivateCb
+            });
+            this.initialized = true;
+        }
+    }
+};
 
-// class Tabs {
-//     constructor(el) {
-//         this.tabsEl = el;
-//     }
-
-//     init(el=this.tabsEl) {
-//         keynav.init(el);
-//     }
-// }
-
-const Tabs = {}
-
-Tabs.dataSelectorList = 'data-ally-web-tablist';
-
-Tabs.init = function(tabsEl) {
-    // Setup keynav for Tabslist
-    keynav.dataSelectorList = Tabs.dataSelectorList;
-    keynav.init(tabsEl);
-}
-
-export default Tabs;
