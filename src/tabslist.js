@@ -5,14 +5,11 @@
 // Currently importing the "compiled" project works.. (so remove "modules":{..} part
 // from Keynav project for now)
 import KeynavWeb, {Keynav} from 'keynav-web';
-// console.log('KeynavWeb', KeynavWeb, Keynav)
 
 
-// TODO: consider how to enable up/down keys (remove from Tablist behavior)
-// probably use the aria-orientation and for:
-// - vertical: enable up/down
-// - horizontal: enable left/right
-// (is this really necessary?! can just leave all?)
+// TODO: refactor autofocus on init out (just activate)
+// TODO: refactor to by default have auto activation (unless a delay from pre-loading/*)
+// TODO: refactor for orientation on horizonal=left/right vertical=up/down
 
 export class Tablist {
     items = [];
@@ -36,7 +33,7 @@ export class Tablist {
         // Also activate (and focus) the Tabpanel
         const controlsTab = document.getElementById(item.getAttribute('aria-controls'));
         if (!controlsTab) { return; }
-        controlsTab.setAttribute('tabindex', '0');
+        controlsTab.setAttribute('tabindex', '0');  // Encase not set
         controlsTab.removeAttribute('hidden');
         this.focussedCb(controlsTab);
     };
@@ -88,6 +85,12 @@ export class Tablist {
             deactivateCb: this.deactivateCb,
             focussedCb: this.focussedCb
         });
+
+        // Make sure at least first tablist item has an aria-selected (entry point)
+        const selected = this.items.find(item => item.getAttribute('aria-selected') === 'true');
+        if(!selected) {
+            this.activateCb(this.items[0]);
+        }
 
         this.isInitialized = true;
     }
