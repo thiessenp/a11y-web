@@ -9,11 +9,11 @@ import {Tablist} from './tabslist';
 
 
 export const Tabs = {
-    initialized: false,
+    // initialized: false,
     // May be useful, should arguably remove since not using now
     lists: [],
     init: function(props={}) {
-        if (!this.initialized) {
+        // if (!this.initialized) {
             const items = Tablist.createListsFromDOM({
                 selectorTablist: props.selectorTablist || '[data-ayw-tablist]',
                 selectorTab: props.selectorTab || '[data-ayw-tab]'
@@ -24,8 +24,9 @@ export const Tabs = {
                 activateCb: props.activateCb,
                 deactivateCb: props.deactivateCb
             });
-            this.initialized = true;
-        }
+            
+            // this.initialized = true;
+        // }
     }
 };
 

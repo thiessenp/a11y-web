@@ -7,11 +7,20 @@
 import KeynavWeb, {Keynav} from 'keynav-web';
 // console.log('KeynavWeb', KeynavWeb, Keynav)
 
+
+// TODO: consider how to enable up/down keys (remove from Tablist behavior)
+// probably use the aria-orientation and for:
+// - vertical: enable up/down
+// - horizontal: enable left/right
+// (is this really necessary?! can just leave all?)
+
 export class Tablist {
     items = [];
+
+    isInitialized = false;
+
     activateCb = (item) => {
         if (!item) { return; }
-
         // Skip activating if already active
         const newActive = item;
         if (newActive.getAttribute['aria-selected'] === 'true') { return; }
@@ -24,13 +33,17 @@ export class Tablist {
         item.setAttribute('tabindex', '0');
         item.setAttribute('aria-selected', 'true');
 
-        // Also activate the Tab panel
+        // Also activate (and focus) the Tabpanel
         const controlsTab = document.getElementById(item.getAttribute('aria-controls'));
         if (!controlsTab) { return; }
+        controlsTab.setAttribute('tabindex', '0');
         controlsTab.removeAttribute('hidden');
+        this.focussedCb(controlsTab);
     };
+
     deactivateCb = (item) => {
         if (!item) { return; }
+ 
         // Deactivate Tab
         item.setAttribute('tabindex', '-1');
         item.setAttribute('aria-selected', 'false');
@@ -41,7 +54,12 @@ export class Tablist {
         controlsTab.setAttribute('hidden', 'hidden');
     };
 
-    constructor({items, isAutoInit=true, activateCb, deactivateCb}) {
+    focussedCb = (item) => {
+        if (!item) { return; }
+        item.focus();
+    };
+
+    constructor({items, isAutoInit=true, activateCb, deactivateCb, focussedCb}) {
         if (!items || items.length === undefined) {
             throw new Error('Error: called Tablist constructor without items list');
         }
@@ -53,17 +71,25 @@ export class Tablist {
         if (deactivateCb && typeof deactivateCb === 'function') {
             this.deactivateCb = deactivateCb;
         }
+        if (focussedCb && typeof focussedCb === 'function') {
+            this.focussedCb = focussedCb;
+        }
         if (isAutoInit) { this.init(); }
     }
 
     init() {
+        if (this.isInitialized) { return; }
+
         // Add keynav to Tabslist items
         // NOTE: Keynav expects a list of lists so wrap items in an array
         Keynav.init({
             items: [this.items],
             activateCb: this.activateCb,
-            deactivateCb: this.deactivateCb
+            deactivateCb: this.deactivateCb,
+            focussedCb: this.focussedCb
         });
+
+        this.isInitialized = true;
     }
 
     static createListsFromDOM({selectorTablist, selectorTab}) {
