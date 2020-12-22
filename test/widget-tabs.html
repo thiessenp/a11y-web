@@ -21,15 +21,8 @@
             <h2>Horizontal Tabs using links</h2>
             <ul role="tablist" aria-label="Example Tab Sections" data-ayw-tablist>  
                 <li role="presentation">
-
->>>>>>>>>>>>>>>>>>>>>>>>>>
-LEFT OFF HERE
-anchors causing keynav to lose focus on activate (enter). 
-Hook up anchors, then again with buttons. (or just buttons...)
-
-<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
                     <!-- no tabindex so key around it -->
-                    <a id="tab1-links" href="#section1-links" role="tab" aria-controls="section1-links" aria-selected="true" tabindex="-1" data-ayw-tab>	
+                    <a id="tab1-links" href="#section1-links" role="tab" aria-controls="section1-links" aria-selected="true" tabindex="0" data-ayw-tab>	
                         Section 1
                     </a>
                 </li>
@@ -67,20 +60,23 @@ Hook up anchors, then again with buttons. (or just buttons...)
         console.log('A11yWeb=', A11yWeb);
 
         document.addEventListener('DOMContentLoaded', function() {
-            // // const tabs = new A11yWeb.Tabs();
-            // // tabs.init();
+            // Try 1:
+            // const tabs = new A11yWeb.Tabs();
+            // tabs.init();
 
+            // Try 2:
             // const optionaTabContainerEl = document.querySelector('.tabContainer1');
-
-            // //A11yWeb.Tabs.init(optionaTabContainerEl);
             // const tabs = new A11yWeb.Tabs({
             //     containerEl: optionaTabContainerEl
             // });
             // tabs.init();
 
+            // Try 3:
             // const listsOfTabslist = A11yWeb.Tablist.createListsFromDOM();
-            A11yWeb.Tabs.init()
             // console.log('listsOfTabslist=', listsOfTabslist)
+
+            // Try 4:
+            A11yWeb.Tabs.init();
         });
     </script>
 </body>

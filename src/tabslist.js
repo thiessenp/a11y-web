@@ -1,22 +1,44 @@
-import {Keynav} from 'keynav-web';
-
+// WEBPACK IS SO ERROR PRONE... (consider dropping it.)
+// Webpack has trouble importing projects created with Webpack, so use the source.
+// BUT when use as an ES module, the bable-loader isn't run and gives an error about
+// class properties.
+// Currently importing the "compiled" project works.. (so remove "modules":{..} part
+// from Keynav project for now)
+import KeynavWeb, {Keynav} from 'keynav-web';
+// console.log('KeynavWeb', KeynavWeb, Keynav)
 
 export class Tablist {
     items = [];
     activateCb = (item) => {
         if (!item) { return; }
-        // Only update if el is not currently active, avoids DOM confusion
-        if (item.getAttribute('tabindex') !== '0') {
-            console.log('0')
-            item.setAttribute('tabindex', '0');
-        }
+
+        // Skip activating if already active
+        const newActive = item;
+        if (newActive.getAttribute['aria-selected'] === 'true') { return; }
+
+        // Remove any lingering state on the old active element(s)
+        const oldActive = this.items.find(item => item.getAttribute('aria-selected') === 'true');
+        this.deactivateCb(oldActive);
+
+        // Activate the new Tab
+        item.setAttribute('tabindex', '0');
+        item.setAttribute('aria-selected', 'true');
+
+        // Also activate the Tab panel
+        const controlsTab = document.getElementById(item.getAttribute('aria-controls'));
+        if (!controlsTab) { return; }
+        controlsTab.removeAttribute('hidden');
     };
     deactivateCb = (item) => {
         if (!item) { return; }
-        if (item.getAttribute('tabindex') !== '-1') {
-            console.log('-1')
-            item.setAttribute('tabindex', '-1');
-        }   
+        // Deactivate Tab
+        item.setAttribute('tabindex', '-1');
+        item.setAttribute('aria-selected', 'false');
+        
+        // Deactivate Tabpanel
+        const controlsTab = document.getElementById(item.getAttribute('aria-controls'));
+        if (!controlsTab) { return; }
+        controlsTab.setAttribute('hidden', 'hidden');
     };
 
     constructor({items, isAutoInit=true, activateCb, deactivateCb}) {

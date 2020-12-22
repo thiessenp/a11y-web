@@ -28,6 +28,12 @@ module.exports = {
     },
     // Externalize these dependencies to reduce bundle size
     externals: {
+        // Debugging: Didn't help
+        // 'keynav-web': {
+        //     commonjs: 'keynav-web',
+        //     commonjs2: 'keynav-web',
+        //     umd: 'keynav-web'
+        // },
         lodash: {
             commonjs: 'lodash',
             commonjs2: 'lodash',
@@ -41,7 +47,13 @@ module.exports = {
             // Run Babel for any JS files (exluding node_modules)
             {
                 test: /\.(js)$/,
+                
+                // Debuggint: commenting out gives the same error, diff path
                 exclude: /node_modules/,
+                
+                // Debugging: didn't help
+                //include: /node_modules\/keynav-web\/src/,
+                
                 use: "babel-loader",
             },
             // Images
