@@ -21,18 +21,18 @@ TODO:
             <h2>Horizontal Tabs using Divs</h2>
             <p>Tablist uses default horizonal orientation, so use left-right keys to nav it. (TODO) Also, the recommended (ARIA best practices) default of auto activating tabs on nav is done.</p>
             <ul role="tablist" aria-orientation="horizontal" aria-label="Example Tab Sections" data-ayw-tablist>  
-                <li role="presentation" class="inline-list-item">
+                <li class="inline-list-item">
                     <!-- no tabindex so key around it -->
                     <div id="tab1-div" role="tab" aria-controls="section1-div" aria-selected="true"  tabindex="0" data-ayw-tab>	
                         Section 1
                     </div>
                 </li>
-                <li role="presentation" class="inline-list-item">
+                <li class="inline-list-item">
                     <div id="tab2-div" role="tab" aria-controls="section2-div" tabindex="-1" data-ayw-tab>
                         Section 2
                     </div>
                 </li>
-                <li role="presentation" class="inline-list-item">
+                <li class="inline-list-item">
                     <div id="tab3-div" role="tab" aria-controls="section3-div" tabindex="-1" data-ayw-tab>
                         Section 3
                     </div>
@@ -49,23 +49,21 @@ TODO:
             </section>
         </section> 
 
-        <!-- Required: Tab container selector, or will default to document (allows only 1 Tabs list and less performant) -->
-        <section class="tabContainer1">
+        <section>
             <h2>Vertical Tabs using links</h2>
             <p>(TODO) Tablist uses vertical orientation, so use up-down keys to nav it. (TODO) Also, the recommended (ARIA best practices) default of auto activating tabs on nav is done.</p>
             <ul role="tablist" aria-label="Example Tab Sections" aria-orientation="vertical" data-ayw-tablist>  
-                <li role="presentation">
-                    <!-- no tabindex so key around it -->
+                <li>
                     <a id="tab1-links" href="#section1-links" role="tab" aria-controls="section1-links" aria-selected="true" tabindex="0" data-ayw-tab>	
                         Section 1
                     </a>
                 </li>
-                <li role="presentation">
+                <li>
                     <a id="tab2-links" href="#section2-links" role="tab" aria-controls="section2-links" tabindex="-1" data-ayw-tab>
                         Section 2
                     </a>
                 </li>
-                <li role="presentation">
+                <li>
                     <a id="tab3-links" href="#section3-links" role="tab" aria-controls="section3-links" tabindex="-1" data-ayw-tab>
                         Section 3
                     </a>
@@ -82,28 +80,26 @@ TODO:
             </section>
         </section>        
 
-        <!-- WHY ROLE PRESENTATION? -->
         <section>
             <h2>Vertical Tabs using Buttons</h2>
             <p>Tablist uses default horizonal orientation, so use left-right keys to nav it. (TODO) Also, manual activation for tabs, so activate the tab to see the relate tabpanel.</p>
             <ul role="tablist" aria-orientation="vertical" aria-label="Example Tab Sections" data-ayw-tablist>  
-                <li role="presentation">
-                    <!-- no tabindex so key around it -->
+                <li>
                     <button id="tab1-button" role="tab" aria-controls="section1-button" aria-selected="true" data-ayw-tab>	
                         Section 1
                     </button>
                 </li>
-                <li role="presentation">
+                <li>
                     <button id="tab2-button" role="tab" aria-controls="section2-button" tabindex="-1" data-ayw-tab>
                         Section 2
                     </button>
                 </li>
-                <li role="presentation">
+                <li>
                     <button id="tab3-button" role="tab" aria-controls="section3-button" tabindex="-1" data-ayw-tab>
                         Section 3
                     </button>
                 </li>
-                <li role="presentation">
+                <li>
                     <button id="tab4-button" role="tab" aria-controls="section4-button" tabindex="-1" data-ayw-tab>
                         Section 4
                     </button>

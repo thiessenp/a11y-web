@@ -7,7 +7,6 @@
 import KeynavWeb, {Keynav} from 'keynav-web';
 
 
-// TODO: refactor autofocus on init out (just activate)
 // TODO: refactor to by default have auto activation (unless a delay from pre-loading/*)
 // TODO: refactor for orientation on horizonal=left/right vertical=up/down
 
@@ -16,7 +15,7 @@ export class Tablist {
 
     isInitialized = false;
 
-    activateCb = (item) => {
+    activateCb = ({item, isInit=false}) => {
         if (!item) { return; }
         // Skip activating if already active
         const newActive = item;
@@ -35,7 +34,9 @@ export class Tablist {
         if (!controlsTab) { return; }
         controlsTab.setAttribute('tabindex', '0');  // Encase not set
         controlsTab.removeAttribute('hidden');
-        this.focussedCb(controlsTab);
+
+        // Cases like init where many Components may load in the DOM, don't want to focus each
+        if (!isInit) { this.focusCb(controlsTab); }
     };
 
     deactivateCb = (item) => {
@@ -51,12 +52,12 @@ export class Tablist {
         controlsTab.setAttribute('hidden', 'hidden');
     };
 
-    focussedCb = (item) => {
+    focusCb = (item) => {
         if (!item) { return; }
         item.focus();
     };
 
-    constructor({items, isAutoInit=true, activateCb, deactivateCb, focussedCb}) {
+    constructor({items, isAutoInit=true, activateCb, deactivateCb, focusCb}) {
         if (!items || items.length === undefined) {
             throw new Error('Error: called Tablist constructor without items list');
         }
@@ -68,8 +69,8 @@ export class Tablist {
         if (deactivateCb && typeof deactivateCb === 'function') {
             this.deactivateCb = deactivateCb;
         }
-        if (focussedCb && typeof focussedCb === 'function') {
-            this.focussedCb = focussedCb;
+        if (focusCb && typeof focusCb === 'function') {
+            this.focusCb = focusCb;
         }
         if (isAutoInit) { this.init(); }
     }
@@ -83,14 +84,12 @@ export class Tablist {
             items: [this.items],
             activateCb: this.activateCb,
             deactivateCb: this.deactivateCb,
-            focussedCb: this.focussedCb
+            focusCb: this.focusCb
         });
 
         // Make sure at least first tablist item has an aria-selected (entry point)
         const selected = this.items.find(item => item.getAttribute('aria-selected') === 'true');
-        if(!selected) {
-            this.activateCb(this.items[0]);
-        }
+        if(!selected) { this.activateCb({item: this.items[0], isInit: true}); }
 
         this.isInitialized = true;
     }
