@@ -9,10 +9,10 @@ module.exports = {
         // main...
         // keynav: path.resolve(__dirname, "src/keynav.js"),
         // hotkeys: path.resolve(__dirname, "src/hotkeys.js"),
-        main: path.resolve(__dirname, "src/index.js"),
+        main: path.resolve(__dirname, "lib/index.js"),
     },
     output: {
-        path: path.resolve(__dirname, './'),
+        path: path.resolve(__dirname, 'dist/'),
         filename: 'index.js',
         
         // Var/Module default name lib exposed as.

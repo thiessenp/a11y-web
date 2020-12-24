@@ -1,8 +1,8 @@
 {
   "name": "a11y-web",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "a11y WIP",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "start": "webpack-cli --watch --config webpack.config.js",
     "build": "webpack --mode=production",
@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/thiessenp/a11y-web#readme",
   "dependencies": {
-    "keynav-web": "^1.0.24",
+    "keynav-web": "^1.0.25",
     "lodash": "^4.17.20"
   },
   "devDependencies": {
@@ -50,6 +50,7 @@
     ]
   },
   "files": [
-    "index.js"
+    "dist",
+    "lib"
   ]
 }

@@ -3,6 +3,21 @@ accessibility widgets and tests (Work In Progress)
 
 Nothing is complete here yet.
 
+```
+TODO Notes:
+- refactor for orientation on horizonal=left/right vertical=up/down
+    >>>>
+        PARTLY, added to Keynav but here would need to recreate Tablist on each
+        orientation change 
+    >>>>
+
+- refactor to by default have auto activation (unless a delay from pre-loading/*)
+
+- when figure out how to get Webpack + Bable to build imported lib source then
+add to package.json > "module":{"src":"lib/index.js"} to prefer the ES6 module 
+over the built source in "main". Webpack optimizations are skipped on projects 
+build with Webpack (F-ing webpack...).
+```
 
 ## Tabs Component 
 
