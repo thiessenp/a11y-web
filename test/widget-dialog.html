@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8"/>
+    <title>Dialog Tests</title>
+<style>
+.dialog-overlay {
+    /* display: none;s */
+    position: fixed;
+    overflow-y: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+@media screen and (min-width: 640px) {
+  .dialog-overlay { background: rgba(0, 0, 0, 0.3); }
+}
+
+[role="alertdialog"],
+[role="dialog"] {
+    box-sizing: border-box;
+    padding: 15px;
+    border: 1px solid #000;
+    background-color: #fff;
+    min-height: 100vh;
+}
+@media screen and (min-width: 640px) {
+  [role="alertdialog"],
+  [role="dialog"] {
+    position: absolute;
+    top: 2rem;
+    left: 50vw;  /* move to the middle of the screen (assumes relative parent is the body/viewport) */
+    transform: translateX(-50%);  /* move backwards 50% of this element's width */
+    min-width: calc(640px - (15px * 2));  /* == breakpoint - left+right margin */
+    min-height: auto;
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.12), 0 15px 12px rgba(0, 0, 0, 0.22);
+  }
+}
+
+.dialog-close {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+}
+
+</style>
+</head>
+<body>
+    <!-- Dialog Semantics Usually placed near the root of the document-->
+    <div class="dialog-overlay">
+        <div id="dialog-modal-1" role="dialog" aria-modal="true" aria-labelledby="dialog-modal-1-title">
+            <h2 id="dialog-modal-1-title">Dialog Title 1</h2>
+            <form>
+                Lots of stuff about stuff.
+                <div><input placeholder="save some state here"></div>
+                <button type="submit">Submit something</button>
+            </form>
+            <button aria-label="close" class="dialog-close">X</button>
+        </div>
+    </div>
+    <div class="dialog-overlay" hidden>
+        <div id="dialog-modal-2" role="alertdialog" aria-modal="true" aria-labelledby="dialog-modal-2-title">
+            <h2 id="dialog-modal-2-title">Alert Dialog Title 2</h2>
+            <form>
+                Lots of stuff about stuff.
+                <div><input placeholder="save some state here"></div>
+                <button type="submit">Submit something</button>
+            </form>
+            <button aria-label="close" class="dialog-close">X</button>
+        </div>
+    </div>
+
+    <main>
+        <h1>Dialog Tests</h1>
+        <p>
+            Examples for testing whether this Dialog implementation matches the behavior defined in 
+            the <a href="https://www.w3.org/TR/wai-aria-practices-1.1/examples/dialog-modal/dialog.html">WAI-ARIA Practices</a> 
+            and for sanity the <a href="https://thiessenp.github.io/dhtml-style-guide/#dialogmodal">AOL DHTML Style Guide</a>.
+        </p>
+        <section>
+            <h2>Modal Dialog 1</h2>
+            <!-- TODO: should there be an aria-controls? -->
+            <button id="dialog-modal-1-button">Open Dialog 1</button>
+        </section> 
+        <section>
+            <h2>Modal Dialog 2</h2>
+            <!-- TODO: should there be an aria-controls? -->
+            <button id="dialog-modal-2-button">Open Alert Dialog 2</button>
+        </section> 
+    <hr>
+
+    <h2>Log</h2>
+    <ul>
+        <li>2020-12: <strong>Multiple modal dialogs open</strong> seems like an anti pattern and major 
+            UI Libraries like Bootstrap do NOT support multiple modals open at once. I think the main 
+            reason against is complexity as argued in 
+            <a href="https://ux.stackexchange.com/questions/52042/is-it-acceptable-to-open-a-modal-popup-on-top-of-another-modal-popup">UX Stackexchange</a>.
+            Should you need a modal style dialog to open from a currently active dialog, you could alow 
+            layering dialogs like in Material UI. Though the only difference is making sure only one 
+            dialog is active at a time. Perhaps a middle ground would be to have only one visible+focussed 
+            dialog at a time, and for the hidden dialogs, have an option to retain their state.
+            <em>Disagree with this but need more data</em>
+        </li>
+    </ul>
+
+    <script src="../dist/index.js"></script>
+    <script>
+        // console.log('A11yWeb=', A11yWeb);
+        document.addEventListener('DOMContentLoaded', function() {
+            A11yWeb.Dialog.init();
+        });
+    </script>
+</body>
+</html>
