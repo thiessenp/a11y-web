@@ -19,7 +19,7 @@
   },
   "homepage": "https://github.com/thiessenp/a11y-web#readme",
   "dependencies": {
-    "keynav-web": "^1.0.25",
+    "keynav-web": "^1.0.26",
     "lodash": "^4.17.20"
   },
   "devDependencies": {

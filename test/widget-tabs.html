@@ -7,19 +7,23 @@ TODO:
 <html lang="en" dir="ltr">
 <head>
     <meta charset="utf-8"/>
-    <title>Widget Tabs Tests</title>
+    <title>Tabs Tests</title>
     <style>
         .inline-list-item { display: inline-block; }
     </style>
 </head>
 <body>
     <main>
-        <h1>Lib: Tabs Tests</h1>
-        <p>Examples for testing focus on whether the Tabs implementation matches the behavior in the WAI-ARIA Practices and for sanity the AOL DHTML Style Guide.</p>
-
+        <h1>Tabs Tests</h1>
+        <p>
+            Examples for testing whether this Tabs implementation matches the behavior defined in 
+            the <a href="https://www.w3.org/TR/wai-aria-practices-1.1/#tabpanel">WAI-ARIA Practices</a> 
+            and for sanity the <a href="https://thiessenp.github.io/dhtml-style-guide/#dialogmodal">AOL DHTML Style Guide</a>.
+            Note that I disagree with behavior defined for <strong>aria-orientation="horizontal/vertical"</strong> 
+            and <strong>default activation</strong> and stubornly did not implement them - see Log notes.
+        </p>
         <section>
-            <h2>Horizontal Tabs using Divs</h2>
-            <p>Tablist uses default horizonal orientation, so use left-right keys to nav it. (TODO) Also, the recommended (ARIA best practices) default of auto activating tabs on nav is done.</p>
+            <h2>Tabs using Divs</h2>
             <ul role="tablist" aria-orientation="horizontal" aria-label="Example Tab Sections" data-ayw-tablist>  
                 <li class="inline-list-item">
                     <!-- no tabindex so key around it -->
@@ -50,8 +54,7 @@ TODO:
         </section> 
 
         <section>
-            <h2>Vertical Tabs using links</h2>
-            <p>(TODO) Tablist uses vertical orientation, so use up-down keys to nav it. (TODO) Also, the recommended (ARIA best practices) default of auto activating tabs on nav is done.</p>
+            <h2>Tabs using links</h2>
             <ul role="tablist" aria-label="Example Tab Sections" aria-orientation="vertical" data-ayw-tablist>  
                 <li>
                     <a id="tab1-links" href="#section1-links" role="tab" aria-controls="section1-links" aria-selected="true" tabindex="0" data-ayw-tab>	
@@ -81,8 +84,7 @@ TODO:
         </section>        
 
         <section>
-            <h2>Vertical Tabs using Buttons</h2>
-            <p>Tablist uses default horizonal orientation, so use left-right keys to nav it. (TODO) Also, manual activation for tabs, so activate the tab to see the relate tabpanel.</p>
+            <h2>Tabs using Buttons</h2>
             <ul role="tablist" aria-orientation="vertical" aria-label="Example Tab Sections" data-ayw-tablist>  
                 <li>
                     <button id="tab1-button" role="tab" aria-controls="section1-button" aria-selected="true" data-ayw-tab>	
@@ -135,22 +137,15 @@ TODO:
             tabpanel. The user can no longer key right to go to the next tab. 
             S/he would have to shift+tab to back to the tablist and then key 
             right. No UIs (as far as I know) do something like this. 
-            Recommend making auto-activation a <em>feature/flag</em> that is 
-            disabled by default. (left as a TODO)
-        </li>
-        <li>2020-12: <strong>aria-orientation keynav</strong> (on role=tablist) 
-            so the ARIA BP recomments left-right keys for horizontal orientation 
-            and up-down keys for vertical orientation. The problem I have with 
-            this is it removes the consistency with all other list navigation 
-            that uses up/left and down/right for navigation. Recommend making 
-            "custom" navigation keys like this a <em>feature/flag</em> that is 
-            disabled by default. (left as a TODO)
+            Recommend not doing, or making auto-activation a <em>feature/flag</em> 
+            that is disabled by default.
         </li>
         <li>2020-12: <strong>aria-orientation</strong> (on role=tablist) set to horizontal/vertical depending on layout. Is a property so you can 
             update it dynamically, say from horizontal to vertical as a screen size shrinks for mobile.
             <em>BUT what value does this offer? Who benefits from these semantics - not Screen reader 
-            users I would think</em>? (behavior defined in https://www.w3.org/TR/wai-aria-practices-1.1/#tabpanel)
-            NOTE: role=tablist has an implicit aria-orientation=horizontal
+            users I would think</em>?  Also, this removes consistency with all other list navigation that uses 
+            up/left and down/right for navigation. Then there is perf concerns about adding a JS listener on
+            resolution changes. NOTE: role=tablist has an implicit aria-orientation=horizontal.
         </li>
     </ul>
 
