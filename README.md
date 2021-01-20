@@ -1,64 +1,30 @@
-# a11y-web (TODO)
-accessibility widgets and tests (Work In Progress)
+# a11y-web
+A few accessibile components and tests (*very* Work In Progress).
 
-Nothing is complete here yet.
-
-```
-TODO Notes:
-- refactor for orientation on horizonal=left/right vertical=up/down
-    >>>>
-        PARTLY, added to Keynav but here would need to recreate Tablist on each
-        orientation change 
-    >>>>
-
-- refactor to by default have auto activation (unless a delay from pre-loading/*)
-
-- when figure out how to get Webpack + Bable to build imported lib source then
-add to package.json > "module":{"src":"lib/index.js"} to prefer the ES6 module 
-over the built source in "main". Webpack optimizations are skipped on projects 
-build with Webpack (F-ing webpack...).
-```
-
-## Tabs Component 
+## Tabs Component (WIP)
 
 Adds keynav and related ARIA property updates on a behavior.
 
-JS:
-Run tabs. This parses the DOM looking for data ayw-tab* attributes.
-```
-import A11yWeb from 'a11y-web';
-A11yWeb.Tabs.init();
-```
-
-HTML:
 Some structure is required. For the Tab list container add a  `role=tablist` and `data-ayw-tablist` attributes. For the child Tabs add a `role=tab` and `data-ayw-tab` attribute. Also to create a relationship between Tab and Tabpanel, on each Tabpanel add a `id="<my-id>"` (and `role=tabpenl`). On each Tab add an `aria-controls="<my-id>"`.
+
+Example:
 ```
+// JS - parses DOM searching for elements with data ayw-tab*
+import A11yWeb from 'a11y-web';
+...
+A11yWeb.Tabs.init();
+
+// HTML
 <ul role="tablist" aria-orientation="vertical" aria-label="Example Tab Sections" data-ayw-tablist>  
     <li>
         <button id="tab1-button" role="tab" aria-controls="section1-button" aria-selected="true" data-ayw-tab>	
             Section 1
         </button>
     </li>
-    <li>
-        <button id="tab2-button" role="tab" aria-controls="section2-button" tabindex="-1" data-ayw-tab>
-            Section 2
-        </button>
-    </li>
-    <li>
-        <button id="tab3-button" role="tab" aria-controls="section3-button" tabindex="-1" data-ayw-tab>
-            Section 3
-        </button>
-    </li>
-    <li>
-        <button id="tab4-button" role="tab" aria-controls="section4-button" tabindex="-1" data-ayw-tab>
-            Section 4
-        </button>
-    </li>
+    ...
 </ul>  
 <section id="section1-button" role="tabpanel" aria-labelledby="tab1-button" tabindex="0" data-ayw-tabpanel>  
     Section 1 Tab Panel
 </section>  
-<section id="section2-button" role="tabpanel" aria-labelledby="tab2-button" tabindex="0" hidden="" data-ayw-tabpanel>  
-    Section 2 Tab Panel
-</section> 
+...
 ```
