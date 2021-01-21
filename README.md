@@ -10,9 +10,12 @@ Some structure is required. For the Tab list container add a  `role=tablist` and
 Example:
 ```
 // JS - parses DOM searching for elements with data ayw-tab*
-import A11yWeb from 'a11y-web';
+import {Tablist} from 'a11y-web';
 ...
-A11yWeb.Tabs.init();
+const tablists = Tablist.buildTablists({
+    selectorTablist: '[data-ayw-tablist]',
+    selectorTab: '[data-ayw-tab]'
+});
 
 // HTML
 <ul role="tablist" aria-orientation="vertical" aria-label="Example Tab Sections" data-ayw-tablist>  
