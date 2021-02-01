@@ -43,7 +43,6 @@
     top: 1em;
     right: 1em;
 }
-
 </style>
 </head>
 <body>
@@ -63,13 +62,15 @@
     </div>
     <div class="dialog-overlay" data-ayw-dialog hidden>
         <div id="dialog-modal-2" role="alertdialog" aria-modal="true" aria-labelledby="dialog-modal-2-title">
-            <h2 id="dialog-modal-2-title">Alert Dialog Title 2</h2>
+            <h2 id="dialog-modal-2-title" data-ayw-dialog-focu>Alert Dialog Title 2</h2>
+            <p>Random hotkey <kbd data-awy-dialog-hotkey="b" onclick="alert('b')">b</kbd> should show an alert when dialog is open</p>
+            <p>Random hotkey <kbd data-awy-dialog-hotkey="2" onclick="alert('2')">2</kbd> should show an alert when dialog is open</p>
             <form>
                 Lots of stuff about stuff.
                 <div><input placeholder="save some state here"></div>
                 <button type="submit">Submit something</button>
             </form>
-            <button aria-label="close" class="dialog-close">X</button>
+            <button aria-label="close" class="dialog-close" data-awy-dialog-hotkey="escape" data-ayw-dialog-close>X</button>
         </div>
     </div>
 
@@ -90,6 +91,16 @@
             <!-- TODO: should there be an aria-controls? -->
             <button id="dialog-modal-2-button">Open Alert Dialog 2</button>
         </section> 
+        <section>
+            <h2>Global Hotkeys</h2>
+            <p>These should NOT work when a Modal is active</p>
+            <ul>
+                <li><kbd data-knw-hotkeys-key="q" onclick="alert('q')">q</kbd></li>
+                <li><kbd data-knw-hotkeys-key="ctrl+q" onclick="alert('ctrl+q')">ctrl+q</kbd></li>
+            </ul>
+        </section>
+    </main>
+        
     <hr>
 
     <h2>Log</h2>
@@ -111,15 +122,24 @@
         // console.log('A11yWeb=', A11yWeb);
         document.addEventListener('DOMContentLoaded', function() {
             // A11yWeb.Dialog.init();
-            const dialog1 = new A11yWeb.Dialog({
-                containerEl: document.querySelector('[data-ayw-dialog]'),
-                selectorHotkeys: '[data-awy-dialog-hotkey]',
-                selectorFocus: '[data-ayw-dialog-focus]'
+            
+            // Wire up Dialogs
+            document.querySelectorAll('[data-ayw-dialog]').forEach((containerEl, index) => {
+                
+                const dialog = new A11yWeb.Dialog({
+                    containerEl,
+                    selectorHotkeys: '[data-awy-dialog-hotkey]',
+                    selectorFocus: '[data-ayw-dialog-focus]'
+                });
+                document.querySelector(`#dialog-modal-${index+1}-button`).onclick = function(e) {
+                    dialog.open();
+                };
             });
 
-            document.querySelector('#dialog-modal-1-button').onclick = function(e) {
-                dialog1.open();
-            };
+            // Add Hotkeys for testing
+            const globalHotkeys = A11yWeb.Hotkeys.buildGlobal({
+                selectorHotkeys: '[data-knw-hotkeys-key]'
+            });
         });
     </script>
 </body>
