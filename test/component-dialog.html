@@ -49,12 +49,12 @@
     <!-- Dialog Semantics Usually placed near the root of the document-->
     <div class="dialog-overlay" data-ayw-dialog hidden>
         <div id="dialog-modal-1" role="dialog" aria-modal="true" aria-labelledby="dialog-modal-1-title">
-            <h2 id="dialog-modal-1-title" data-ayw-dialog-focus>Dialog Title 1</h2>
+            <h2 id="dialog-modal-1-title">Dialog Title 1</h2>
             <p>Random hotkey <kbd data-awy-dialog-hotkey="a" onclick="alert('a')">a</kbd> should show an alert when dialog is open</p>
             <p>Random hotkey <kbd data-awy-dialog-hotkey="1" onclick="alert('1')">1</kbd> should show an alert when dialog is open</p>
             <form>
                 Lots of stuff about stuff.
-                <div><input placeholder="save some state here"></div>
+                <div><input type="text" placeholder="save some state here" data-ayw-dialog-focus></div>
                 <button type="submit">Submit something</button>
             </form>
             <button aria-label="close" class="dialog-close" data-awy-dialog-hotkey="escape" data-ayw-dialog-close>X</button>
@@ -62,12 +62,12 @@
     </div>
     <div class="dialog-overlay" data-ayw-dialog hidden>
         <div id="dialog-modal-2" role="alertdialog" aria-modal="true" aria-labelledby="dialog-modal-2-title">
-            <h2 id="dialog-modal-2-title" data-ayw-dialog-focu>Alert Dialog Title 2</h2>
+            <h2 id="dialog-modal-2-title">Alert Dialog Title 2</h2>
             <p>Random hotkey <kbd data-awy-dialog-hotkey="b" onclick="alert('b')">b</kbd> should show an alert when dialog is open</p>
             <p>Random hotkey <kbd data-awy-dialog-hotkey="2" onclick="alert('2')">2</kbd> should show an alert when dialog is open</p>
             <form>
                 Lots of stuff about stuff.
-                <div><input placeholder="save some state here"></div>
+                <div><input placeholder="save some state here" data-ayw-dialog-focus></div>
                 <button type="submit">Submit something</button>
             </form>
             <button aria-label="close" class="dialog-close" data-awy-dialog-hotkey="escape" data-ayw-dialog-close>X</button>
