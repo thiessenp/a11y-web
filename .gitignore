@@ -5,9 +5,9 @@ node_modules
 /.pnp
 .pnp.js
 
+# (update) ACTUALLY do include for github pages
 # production -- Include with release, not repo
-dist
-#index.js
+#dist
 
 # misc
 .DS_Store
