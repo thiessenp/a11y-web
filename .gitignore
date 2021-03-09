@@ -6,8 +6,8 @@ node_modules
 .pnp.js
 
 # production -- Include with release, not repo
-# dist
-index.js
+dist
+#index.js
 
 # misc
 .DS_Store
