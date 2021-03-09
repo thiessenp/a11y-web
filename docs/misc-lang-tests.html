@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8"/>
+    <title>Lang attribute tests</title>
+</head>
+<body>
+    <main>
+        <h1>Lang attribute tests</h1>
+        <p>Examples for testing focus on whether an Assistive Technology (AT) will correctly do the <strong>Automatic Language Switching</strong> based on the lang attribute and its nesting.</p>
+
+        <h2>Default Lang</h2>
+        <p>This should be spoken in the default language based on the root html lang attribute.</p>
+
+        <h2>Override Lang</h2>
+        <p lang="fr">Cela doit être prononcé dans la langue par défaut en fonction de l'attribut racine html lang.</p>
+
+        <h2>Multi-Override Lang</h2>
+        <p>This part <span lang="fr">spoken in French</span> and this part <span lang="jp">日本語で話されています</span> and this part <span lang="ar" dir="rtl">تحدث بالعربية</span></p>
+
+        <section aria-labelledby="language-en-label1">
+            <h2 id="language-en-label1">Nested Multi-Override Lang</h2>
+            <div lang="fr">
+                Overriden language (French) Top level
+                <div lang="jp">
+                    オーバーライド言語（日本語）2レベルのネスト
+                    <div lang="ar" dir="rtl">
+                        تجاوز تداخل اللغة (العربية) 3 مستويات
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section aria-labelledby="language-en-label2">
+            <h2 id="language-en-label2">Dynamicall change root lang el</h2>
+            <p>Click <button id="change_lang">Change language</button> to toggle lang to French or English. Then test all the defaults above that should in French.</p>
+            <p aria-live=polite aria-atomic=true>Current default language is <strong id="current-lang"></strong></p>
+        </section>
+    </main>
+
+    <hr>
+
+    <asside aria-labelledby="log-of-testing-title">
+        <h2 id="log-of-testing-title">Log of Testing</h2>
+        <p>Tested on Windows 10 with combinations of screen readers Jaws, NVDA, Narrator, ChromeVox and browsers Chrome, Edge, FF, IE11.</p>
+        <ol>
+            <li>11-2020: Currently only Jaws + Chrome/Edge/FF and Narrator + Edge were able to handle the above tests of Automatic Language Switching.</li>
+        </ol>
+    </asside>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('current-lang').textContent = getLangVal();
+
+            document.getElementById('change_lang').addEventListener('click', function() {
+                var lang = getLangVal();
+                lang = (lang === 'en') ? 'fr' : 'en';
+                // update root lang
+                document.getElementsByTagName('html')[0].setAttribute('lang', lang);
+                // update current lang with current lang
+                document.getElementById('current-lang').textContent = lang;
+            });
+        });
+
+        function getLangEl() {
+            var el = document.getElementsByTagName('html');
+            return el.item(0).attributes.lang;
+        }
+
+        function getLangVal() {
+            return getLangEl().value;
+        }
+    </script>
+</body>
+</html>

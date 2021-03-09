@@ -1,0 +1,165 @@
+<!--
+TODO:
+- CSS for active focus
+- CSS for a responsive layout from horizontal to vertical
+-->
+<!DOCTYPE HTML>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8"/>
+    <title>Tablist Tests</title>
+    <style>
+        .inline-list-item { display: inline-block; }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Tablist Tests</h1>
+        <p>
+            Examples for testing whether this Tablist implementation matches the behavior defined in 
+            the <a href="https://www.w3.org/TR/wai-aria-practices-1.1/#tabpanel">WAI-ARIA Practices</a> 
+            and for sanity the <a href="https://thiessenp.github.io/dhtml-style-guide/#dialogmodal">AOL DHTML Style Guide</a>.
+            Note that I disagree with behavior defined for <strong>aria-orientation="horizontal/vertical"</strong> 
+            and <strong>default activation</strong> and stubornly did not implement them - see Log notes.
+        </p>
+        <section>
+            <h2>Tabs using Divs</h2>
+            <ul role="tablist" aria-orientation="horizontal" aria-label="Example Tab Sections" data-ayw-tablist>  
+                <li class="inline-list-item">
+                    <!-- no tabindex so key around it -->
+                    <div id="tab1-div" role="tab" aria-controls="section1-div" aria-selected="true"  tabindex="0" data-ayw-tab>	
+                        Section 1
+                    </div>
+                </li>
+                <li class="inline-list-item">
+                    <div id="tab2-div" role="tab" aria-controls="section2-div" tabindex="-1" data-ayw-tab>
+                        Section 2
+                    </div>
+                </li>
+                <li class="inline-list-item">
+                    <div id="tab3-div" role="tab" aria-controls="section3-div" tabindex="-1" data-ayw-tab>
+                        Section 3
+                    </div>
+                </li>
+            </ul>  
+            <section id="section1-div" role="tabpanel" aria-labelledby="tab1-div" tabindex="0" data-ayw-tabpanel>  
+                Section 1 Tab Panel
+            </section>  
+            <section id="section2-div" role="tabpanel" aria-labelledby="tab2-div" tabindex="0" hidden="" data-ayw-tabpanel>  
+                Section 2 Tab Panel
+            </section>  
+            <section id="section3-div" role="tabpanel" aria-labelledby="tab3-div" tabindex="0" hidden="" data-ayw-tabpanel>
+                Section 3 Tab Panel
+            </section>
+        </section> 
+
+        <section>
+            <h2>Tabs using links</h2>
+            <ul role="tablist" aria-label="Example Tab Sections" aria-orientation="vertical" data-ayw-tablist>  
+                <li>
+                    <a id="tab1-links" href="#section1-links" role="tab" aria-controls="section1-links" aria-selected="true" tabindex="0" data-ayw-tab>	
+                        Section 1
+                    </a>
+                </li>
+                <li>
+                    <a id="tab2-links" href="#section2-links" role="tab" aria-controls="section2-links" tabindex="-1" data-ayw-tab>
+                        Section 2
+                    </a>
+                </li>
+                <li>
+                    <a id="tab3-links" href="#section3-links" role="tab" aria-controls="section3-links" tabindex="-1" data-ayw-tab>
+                        Section 3
+                    </a>
+                </li>
+            </ul>  
+            <section id="section1-links" role="tabpanel" aria-labelledby="tab1-links" tabindex="0" data-ayw-tabpanel>  
+                Section 1 Tab Panel
+            </section>  
+            <section id="section2-links" role="tabpanel" aria-labelledby="tab2-links" tabindex="0" hidden="" data-ayw-tabpanel>  
+                Section 2 Tab Panel
+            </section>  
+            <section id="section3-links" role="tabpanel" aria-labelledby="tab3-links" tabindex="0" hidden="" data-ayw-tabpanel>
+                Section 3 Tab Panel
+            </section>
+        </section>        
+
+        <section>
+            <h2>Tabs using Buttons</h2>
+            <ul role="tablist" aria-orientation="vertical" aria-label="Example Tab Sections" data-ayw-tablist>  
+                <li>
+                    <button id="tab1-button" role="tab" aria-controls="section1-button" aria-selected="true" data-ayw-tab>	
+                        Section 1
+                    </button>
+                </li>
+                <li>
+                    <button id="tab2-button" role="tab" aria-controls="section2-button" tabindex="-1" data-ayw-tab>
+                        Section 2
+                    </button>
+                </li>
+                <li>
+                    <button id="tab3-button" role="tab" aria-controls="section3-button" tabindex="-1" data-ayw-tab>
+                        Section 3
+                    </button>
+                </li>
+                <li>
+                    <button id="tab4-button" role="tab" aria-controls="section4-button" tabindex="-1" data-ayw-tab>
+                        Section 4
+                    </button>
+                </li>
+            </ul>  
+            <section id="section1-button" role="tabpanel" aria-labelledby="tab1-button" tabindex="0" data-ayw-tabpanel>  
+                Section 1 Tab Panel
+            </section>  
+            <section id="section2-button" role="tabpanel" aria-labelledby="tab2-button" tabindex="0" hidden="" data-ayw-tabpanel>  
+                Section 2 Tab Panel
+            </section>  
+            <section id="section3-button" role="tabpanel" aria-labelledby="tab3-button" tabindex="0" hidden="" data-ayw-tabpanel>
+                Section 3 Tab Panel
+            </section>
+            <section id="section4-button" role="tabpanel" aria-labelledby="tab4-button" tabindex="0" hidden="" data-ayw-tabpanel>
+                Section 4 Tab Panel
+            </section>
+        </section> 
+    </main>
+
+    <hr>
+
+    <h2>Log</h2>
+    <ul>
+        <li>2020-12: <strong>tablist auto-activation</strong> should be enabled
+            by default accodring to ARIA BP. So when a user keys to the next 
+            tab in the tablist, that Tab should auto-activate the tab panel. 
+            This is just <strong>BROKEN</strong> because in the ARIA spec the 
+            behavior is to alow keying through the tablist and on activating a 
+            tab the related tabpanel should show and be focussed. The user would 
+            be jumping around chaotically with this. E.g. user keys right on the 
+            tablist, next tab becomes active and the moves focus to the related 
+            tabpanel. The user can no longer key right to go to the next tab. 
+            S/he would have to shift+tab to back to the tablist and then key 
+            right. No UIs (as far as I know) do something like this. 
+            Recommend not doing, or making auto-activation a <em>feature/flag</em> 
+            that is disabled by default.
+        </li>
+        <li>2020-12: <strong>aria-orientation</strong> (on role=tablist) set to horizontal/vertical depending on layout. Is a property so you can 
+            update it dynamically, say from horizontal to vertical as a screen size shrinks for mobile.
+            <em>BUT what value does this offer? Who benefits from these semantics - not Screen reader 
+            users I would think</em>?  Also, this removes consistency with all other list navigation that uses 
+            up/left and down/right for navigation. Then there is perf concerns about adding a JS listener on
+            resolution changes. NOTE: role=tablist has an implicit aria-orientation=horizontal.
+        </li>
+    </ul>
+
+    <script src="../dist/index.js"></script>
+    <script>
+        // console.log('A11yWeb=', A11yWeb);
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create a list of all the Tablists
+            const tablists = A11yWeb.Tablist.buildTablists({
+                selectorTablist: '[data-ayw-tablist]',
+                selectorTab: '[data-ayw-tab]'
+            });
+            console.log('tablists=', tablists);
+        });
+    </script>
+</body>
+</html>

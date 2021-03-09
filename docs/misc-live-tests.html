@@ -1,0 +1,273 @@
+<!DOCTPYE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8"/>
+    <title>Live Tests</title>
+    <style>
+        /* [aria-live],[role=log],[role=status] {background-color: #ccc}; */
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Live Region Tests</h1>
+        <p>Examples for testing focus on whether an Assistive Technology (AT) will correctly announce <strong>Live Regions</strong> on dynamic updates.</p>
+        <strong>Notes</strong>
+        <ul>
+            <li>Live updates announce the related aria-labelledby or aria-label with <em>each update</em>. Keep it brief to avoid being annoying.</li>
+            <li>DOM Inline additions (Text, Span..) cause Elements current contents plus addition to be read on the update (even if default atomic=false).</li>
+            <li>DOM Block and Inline-Block additions cause only the Block's content to be read on the update (with atomic=false)</li>
+            <li>DOM el Styling changes behavior, addition treated as Inline vs Block/Inline-Block described above.</li>
+            <li>Question: region atomic behavior with innerHTML vs. textContent updates for both Inline (text, span) vs Block</li>
+        </ul>
+
+        <section>
+            <h2>Live Region Defaults</h2>
+            <p>Should announce only new content added to an element based on the <em>defaults aria-relevant="additions text" aria-atomic="false"</em></p>
+
+            <h3>aria-live=polite</h3>
+            <p>Polite updates announced below. <button id="live-polite-button">Start Polite updates</button></p>
+            <div aria-live=polite id="live-polite" aria-label="Polite update"><div>(updates here)</div></div>
+            
+            <h3>aria-live=assertive</h3>
+            <p>Assertive updates announced below. <button id="live-assertive-button">Start Assertive updates</button></p>
+            <div aria-live=assertive id="live-assertive" aria-label="Assertive update"><div>(updates here)</div></div>
+        </section>
+
+        <section>
+            <h2>Live Region Relevant</h2>
+            <p>Regions below have a aria-live=polite with a custom aria-relevant.</p>
+
+            <h3>aria-relavant="additions"</h3>
+            <p>Additions announced below. <button id="relevant-additions-add-button">Add element</button> should be announce. Both <button id="relevant-additions-remove-button">Remove element</button> and <button id="relevant-additions-text-button">Add text</button> should <strong>not</strong> be announced on update.</p>
+            <div aria-live=polite aria-relevant="additions" id="relevant-additions" aria-label="Additions updates"><div>(updates here)</div></div>
+
+            <h3>aria-relavant="removals"</h3>
+            <p>Removals announced below. <button id="relevant-removals-remove-button">Remove element</button> should be announce. Both <button id="relevant-removals-add-button">Add element</button> and <button id="relevant-removals-text-button">Add text</button> should <strong>not</strong> be announced on update.</p>
+            <div aria-live="polite" aria-relevant="removals" id="relevant-removals" aria-label="Removal updates"><div>(updates here)</div></div>
+
+            <h3>aria-relavant="text"</h3>
+            <p>Text add/remove announced below. <button id="live-relevant-text-add-button">Add text</button> and <button id="live-relevant-text-remove-button">Remove text</button> should announce. Both <button id="live-relevant-text-add-el-button">Add element</button> and <button id="live-relevant-text-remove-el-button">Remove element</button> should <strong>not</strong> be announced on update.</button></p>
+            <div aria-live="polite" aria-relevant="text" id="relevant-text" aria-label="Text updates"><div>(updates here)</div></div>
+        </section> 
+        
+        <section>
+            <h2>Live Region Atomic</h2>
+
+            <h3>aria-atomic="false"</h3>
+            <p>Non Atomic updates announced below. <button id="live-atomic-false-add-button">Add element</button> should only announce "itself".</p>
+            <div aria-live="polite" aria-atomic="false" id="relevant-atomic-false" aria-label="Atomic false update"><div>(updates here)</div></div>
+
+            <h3>aria-atomic="true"</h3>
+            <p>Non Atomic updates announced below. <button id="live-atomic-true-add-button">Add element</button> should only announce "itself".</p>
+            <div aria-live="polite" aria-atomic="true" id="relevant-atomic-true" aria-label="Atomic true update"><div>(updates here)</div></div>
+        </section>
+
+        <section>
+            <h2>Live Region Roles</h2>
+
+            <section>
+                <h3>role=log</h3>
+                <p>Adds an elements to the log below (repeats N times). <button id="role-log-button">Start adding elements to log</button> </p>
+                <ul role=log aria-label="log update" id="role-log-el"><li>(updates here)</li></ul>
+            </section>
+
+            <section>
+                <h3>role="status"</h3>
+                <p>Adds an element to the status element below. <button id="role-status-button">Add element</button> </p>
+                <div role=status aria-label="status update" id="role-status"><div>(updates here)</div></div>
+            </section>
+
+            <section>
+                <h3>role="alert"</h3>
+                <p>Adds an element to the alert element below. <button id="role-alert-button">Add element</button> </p>
+                <div role=alert aria-label="alert update" id="role-alert"><div>(updates here)</div></div>
+            </section>
+
+            <section>
+                <h3>role="marquee" (Not Supported NVDA?)</h3>
+                <p>Adds an element to the marquee element below. <button id="role-marquee-button">Add element</button> </p>
+                <div role=marquee aria-label="marquee update" id="role-marquee"><div>(updates here)</div></div>
+            </section>
+
+            <section>
+                <h3>role="timer" (Not Supported NVDA?)</h3>
+                <p>Adds an element to the timer element below. <button id="role-timer-button">Start countdown</button> </p>
+                <div role="timer" aria-label="timer update" id="role-timer">20</div>
+            </section>
+        </section>
+    </main>
+
+    <hr>
+
+    <asside aria-labelledby="log-of-testing-title">
+        <h2 id="log-of-testing-title">Log of Testing</h2>
+        <p>Tested on Windows 10 with combinations of screen readers Jaws, NVDA, Narrator, ChromeVox and browsers Chrome, Edge, FF, IE11.</p>
+        <ol>
+            <li>Date: November 19 2020
+<pre>
+Jaws/NVDA + Chrome/Edge/FF:
+- do not support roles marquee and timer (updates not announced)
+
+NVDA + Chrome:
+- aria-live=polite/assertive label announced after update can get mixed up between simultaneous updates
+- aria-relevant=removals nothing announced for removals
+
+NVDA + Firefox (works excellent):
+- (good) announces content, not label (correct?)
+
+NVDA/Jaws + Edge:
+- <strong>aria-live completely not supported, only label announces on an update? (for real?! double check, also try narrator)</strong>
+
+Jaws + Firefox
+- relevant=additons also announces text addtitions
+- relevant=text also announces add element
+
+Jaws + Chrome:
+- aria-relevant=removals incorrectly announces text addtions
+- aria-relevant=text incorrectly announces adding element
+</pre>                    
+            </li>
+        </ol>
+    </asside>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        //live-polite
+        const livePolite = document.querySelector('#live-polite');
+        const livePoliteButton = document.querySelector('#live-polite-button');
+        livePoliteButton.addEventListener('click', () => repeatAddElement({parentEl: livePolite, delay: 500, max: 50}));
+
+        //live-assertive
+        const liveAssertive = document.querySelector('#live-assertive');
+        const liveAssertiveButton = document.querySelector('#live-assertive-button');
+        liveAssertiveButton.addEventListener('click', () => repeatAddElement({parentEl: liveAssertive, content: document.createTextNode('a')}));
+
+        //relevant=addition
+        const relevantAdditionsContent = document.querySelector('#relevant-additions');
+        const relevantAdditionsAddButton  = document.querySelector('#relevant-additions-add-button');
+        relevantAdditionsAddButton.addEventListener('click', () => addElement({parentEl: relevantAdditionsContent, content:document.createTextNode('added element')}));
+        const relevantAdditionsRemoveButton  = document.querySelector('#relevant-additions-remove-button');
+        relevantAdditionsRemoveButton.addEventListener('click', () => removeElement({parentEl: relevantAdditionsContent}));
+        const relevantAdditionsTextButton  = document.querySelector('#relevant-additions-text-button');
+        relevantAdditionsTextButton.addEventListener('click', () => addText({parentEl: relevantAdditionsContent, content: document.createTextNode('text (not announce)')}));
+
+        //relevant=removals
+        const relevantRemovalsContent = document.querySelector('#relevant-removals');
+        const relevantRemovalsRemoveButton = document.querySelector('#relevant-removals-remove-button');
+        relevantRemovalsRemoveButton.addEventListener('click', () => removeElement({parentEl: relevantRemovalsContent}));
+        const relevantRemovalsAddButton = document.querySelector('#relevant-removals-add-button');
+        relevantRemovalsAddButton.addEventListener('click', () => addElement({parentEl: relevantRemovalsContent, content:document.createTextNode('added element (not announce)')}));
+        const relevantRemovalsTextButton  = document.querySelector('#relevant-removals-text-button');
+        relevantRemovalsTextButton.addEventListener('click', () => addText({parentEl: relevantRemovalsContent, content: document.createTextNode('text (not announce)')}));
+
+        //relevant=text
+        const relevantTextContent = document.querySelector('#relevant-text');
+        const relevantTextAddButton = document.querySelector('#live-relevant-text-add-button');
+        relevantTextAddButton.addEventListener('click', () => addText({parentEl: relevantTextContent, content: document.createTextNode('text added')}));
+        const relevantTextRemoveButton = document.querySelector('#live-relevant-text-remove-button');
+        relevantTextRemoveButton.addEventListener('click', () => removeText({parentEl: relevantTextContent}));
+        const relevantTextAddElButton = document.querySelector('#live-relevant-text-add-el-button');
+        relevantTextAddElButton.addEventListener('click', () => addElement({parentEl: relevantTextContent, content:document.createTextNode('added element (not announce)')}));
+        const relevantTextRemoveElButton = document.querySelector('#live-relevant-text-remove-el-button');
+        relevantTextRemoveElButton.addEventListener('click', () => removeElement({parentEl: relevantTextContent}));
+
+        //atomic
+        const relevantAtomicFalseContent = document.querySelector('#relevant-atomic-false');
+        const relevantAtomicFalseAddButton = document.querySelector('#live-atomic-false-add-button');
+        relevantAtomicFalseAddButton.addEventListener('click', () => addElement({parentEl: relevantAtomicFalseContent, content:document.createTextNode('added element (announce only this)')}));
+
+        const relevantAtomicTrueContent = document.querySelector('#relevant-atomic-true');
+        const relevantAtomicTrueAddButton = document.querySelector('#live-atomic-true-add-button');
+        relevantAtomicTrueAddButton.addEventListener('click', () => addElement({parentEl: relevantAtomicTrueContent, content:document.createTextNode('added element (announce entire thing)')}));
+
+        //role-log
+        const roleLogContent = document.querySelector('#role-log-el');
+        const roleLogButton  = document.querySelector('#role-log-button');
+        roleLogButton.addEventListener('click', () => repeatAddElement({parentEl: roleLogContent, childEl: document.createElement('li'), styleAsInline: false}));
+
+        //role-status
+        const roleStatusContent = document.querySelector('#role-status');
+        const roleStatusButton  = document.querySelector('#role-status-button');
+        roleStatusButton.addEventListener('click', () => addElement({parentEl: roleStatusContent, childEl: document.createElement('div')}));
+        
+        //role-alert
+        const roleAlertContent = document.querySelector('#role-alert');
+        const roleAlertButton  = document.querySelector('#role-alert-button');
+        roleAlertButton.addEventListener('click', () => addElement({parentEl: roleAlertContent, childEl: document.createElement('div')}));
+
+        //role-marquee
+        const roleMarqueeContent = document.querySelector('#role-marquee');
+        const roleMarqueeButton  = document.querySelector('#role-marquee-button');
+        roleMarqueeButton.addEventListener('click', () => repeatAddElement({parentEl: roleMarqueeContent, childEl: document.createElement('div'), styleAsInline: true}));
+
+        //role-timer
+        const roleTimerContent = document.querySelector('#role-timer');
+        const roleTimerButton  = document.querySelector('#role-timer-button');
+        roleTimerButton.addEventListener('click', () => startTimer({parentEl: roleTimerContent}));
+});
+
+
+function addElement({parentEl, childEl=document.createElement('div'), content=document.createTextNode('add element')}) {
+    if (content) childEl.appendChild(content);
+    parentEl.appendChild(childEl);
+}
+
+function removeElement({parentEl}) {
+    const removeEl = parentEl.children[0];
+    parentEl.removeChild(removeEl);
+}
+
+function addText({parentEl, content}) {
+    const appendTextTo = parentEl.children[0];
+    appendTextTo.appendChild(content)
+}
+
+function removeText({parentEl, content}) {
+    const firstEl = parentEl.children[0];
+    // Removes all text but the first word
+    const newText = firstEl.textContent.split(' ').shift();
+    firstEl.textContent = newText;
+}
+
+function repeatAddElement({parentEl, childEl=document.createElement('div'), styleAsInline=true, content=document.createTextNode('1'), delay=1000, max=20}) {
+    let count = 0;
+    function run() {
+        setTimeout(run, delay);
+        count++;
+        if (count <= max) doUpdate();
+    }
+    function doUpdate(){
+        // Note: Span/textNode treated as Inline & read as whole. 
+        // Must be added to DOM as a block element to read as a distinct addition.
+        const myChildEl = childEl.cloneNode(true);
+        // Note: Appending the same node, will just overwrite/ignore that node. 
+        // Clone it so added to DOM as epected. Weird..
+        myChildEl.appendChild(content.cloneNode(true));
+        if (styleAsInline) {
+            myChildEl.style.display = 'inline-block';
+        }
+        parentEl.appendChild(myChildEl);
+    }
+    run();
+}
+
+/**
+ * Taken from out of laziness: https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/ARIA_timer_role
+ */
+function startTimer({parentEl}) {
+  // get the number of seconds
+   let seconds = parseInt(parentEl.innerText);
+  // remove a second
+  // updated the content of timer
+  parentEl.innerText = --seconds
+  // if timer != 0, setTimeout
+  if (seconds) {
+    setTimeout( function() {
+      startTimer({parentEl});
+    }, 1000);
+  }
+}
+</script>
+</body>
+</html>
