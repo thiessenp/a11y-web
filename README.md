@@ -1,6 +1,8 @@
 # a11y-web
 A few accessibile components and tests (*very* Work In Progress).
 
+**Note: Docs are on the [related Github Pages](https://thiessenp.github.io/a11y-web/) and the source is on the `gh-pages` branch.**
+
 ## Tabs Component (WIP)
 
 Adds keynav and related ARIA property updates on a behavior.
