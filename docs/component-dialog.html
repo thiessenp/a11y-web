@@ -48,34 +48,48 @@
 <body>
     <!-- Dialog Semantics Usually placed near the root of the document-->
     <div class="dialog-overlay" data-ayw-dialog hidden>
-        <div id="dialog-modal-1" role="dialog" aria-modal="true" aria-labelledby="dialog-modal-1-title">
+        <div id="dialog-modal-1" role="dialog" aria-modal="true" aria-labelledby="dialog-modal-1-title" aria-describedby="dialog-modal-1-description">
             <h2 id="dialog-modal-1-title">Dialog Title 1</h2>
-            <p>Random hotkey <kbd data-awy-dialog-hotkey="a" onclick="alert('a')">a</kbd> should show an alert when dialog is open</p>
-            <p>Random hotkey <kbd data-awy-dialog-hotkey="1" onclick="alert('1')">1</kbd> should show an alert when dialog is open</p>
+            <p id="dialog-modal-1-description">Content describing the dialog should be read first (hinted to AT using aria-describedby)</p>
+            <h3>Keynav</h3>
+            <p>Dialog hotkeys should be enabled (but global hotkeys disabled)</p>
+            <ul>
+                <li>hotkey <kbd data-awy-dialog-hotkey="a" onclick="alert('a')">a</kbd> should show an alert when dialog is open</li>
+                <li>hotkey <kbd data-awy-dialog-hotkey="1" onclick="alert('1')">1</kbd> should show an alert when dialog is open</li>
+            </ul>
+            <h3>Controls</h3>
             <form>
-                Lots of stuff about stuff.
-                <div><input type="text" placeholder="save some state here" data-ayw-dialog-focus></div>
+                <p>The first control (button/input/link..) should receive the initial focus (or if none, the first text content).</p>
+                <label>Say something <input type="text" placeholder="save some state here" data-ayw-dialog-focus></label>
                 <button type="submit">Submit something</button>
             </form>
+            <p><em>Closing the dialog should return focus to the control that triggered the dialog.</em></p>
             <button aria-label="close" class="dialog-close" data-awy-dialog-hotkey="escape" data-ayw-dialog-close>X</button>
         </div>
     </div>
     <div class="dialog-overlay" data-ayw-dialog hidden>
-        <div id="dialog-modal-2" role="alertdialog" aria-modal="true" aria-labelledby="dialog-modal-2-title">
-            <h2 id="dialog-modal-2-title">Alert Dialog Title 2</h2>
-            <p>Random hotkey <kbd data-awy-dialog-hotkey="b" onclick="alert('b')">b</kbd> should show an alert when dialog is open</p>
-            <p>Random hotkey <kbd data-awy-dialog-hotkey="2" onclick="alert('2')">2</kbd> should show an alert when dialog is open</p>
+        <div id="dialog-modal-2" role="dialog" aria-modal="true" aria-labelledby="dialog-modal-2-title" aria-describedby="dialog-modal-2-description">
+            <h2 id="dialog-modal-2-title">Dialog Title 2</h2>
+            <p id="dialog-modal-2-description">Content describing the dialog should be read first (hinted to AT using aria-describedby)</p>
+            <h3>Keynav</h3>
+            <p>Dialog hotkeys should be enabled (but global hotkeys disabled)</p>
+            <ul>
+                <li>hotkey <kbd data-awy-dialog-hotkey="b" onclick="alert('b')">b</kbd> should show an alert when dialog is open</li>
+                <li>hotkey <kbd data-awy-dialog-hotkey="2" onclick="alert('2')">2</kbd> should show an alert when dialog is open</li>
+            </ul>
+            <h3>Controls</h3>
             <form>
-                Lots of stuff about stuff.
-                <div><input placeholder="save some state here" data-ayw-dialog-focus></div>
+                <p>The first control (button/input/link..) should receive the initial focus (or if none, the first text content).</p>
+                <label>Say something <input type="text" placeholder="save some state here" data-ayw-dialog-focus></label>
                 <button type="submit">Submit something</button>
             </form>
+            <p><em>Closing the dialog should return focus to the control that triggered the dialog.</em></p>
             <button aria-label="close" class="dialog-close" data-awy-dialog-hotkey="escape" data-ayw-dialog-close>X</button>
         </div>
     </div>
 
     <main>
-        <h1>Dialog Tests (test)</h1>
+        <h1>Dialog Tests</h1>
         <p>
             Examples for testing whether this Dialog implementation matches the behavior defined in 
             the <a href="https://www.w3.org/TR/wai-aria-practices-1.1/examples/dialog-modal/dialog.html">WAI-ARIA Practices</a> 
@@ -105,6 +119,7 @@
 
     <h2>Log</h2>
     <ul>
+        <li>2021-03: <strong>TODO lookinto how JAWS works with hotkeys (fails for single keys like `a`), currently only works with combo keys (ctrl+q)</strong></li>
         <li>2020-12: <strong>Multiple modal dialogs open</strong> seems like an anti pattern and major 
             UI Libraries like Bootstrap do NOT support multiple modals open at once. I think the main 
             reason against is complexity as argued in 
