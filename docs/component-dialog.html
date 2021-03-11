@@ -95,24 +95,26 @@
             the <a href="https://www.w3.org/TR/wai-aria-practices-1.1/examples/dialog-modal/dialog.html">WAI-ARIA Practices</a> 
             and for sanity the <a href="https://thiessenp.github.io/dhtml-style-guide/#dialogmodal">AOL DHTML Style Guide</a>.
         </p>
+
+        <p>Note: Global hotkeys should not work while a dialog is open, these for example:</p>
+        <ul>
+            <li><kbd data-knw-hotkeys-key="q" onclick="alert('q')">q</kbd></li>
+            <li><kbd data-knw-hotkeys-key="ctrl+q" onclick="alert('ctrl+q')">ctrl+q</kbd></li>
+        </ul>
+    
+        <hr />
+
         <section>
             <h2>Modal Dialog 1</h2>
             <!-- TODO: should there be an aria-controls? -->
             <button id="dialog-modal-1-button">Open Dialog 1</button>
         </section> 
+
         <section>
             <h2>Modal Dialog 2</h2>
             <!-- TODO: should there be an aria-controls? -->
             <button id="dialog-modal-2-button">Open Alert Dialog 2</button>
         </section> 
-        <section>
-            <h2>Global Hotkeys</h2>
-            <p>These should NOT work when a Modal is active</p>
-            <ul>
-                <li><kbd data-knw-hotkeys-key="q" onclick="alert('q')">q</kbd></li>
-                <li><kbd data-knw-hotkeys-key="ctrl+q" onclick="alert('ctrl+q')">ctrl+q</kbd></li>
-            </ul>
-        </section>
     </main>
         
     <hr>
