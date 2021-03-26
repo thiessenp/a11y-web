@@ -7,15 +7,10 @@
 <body>
 	<main>
 		<h1>Alt-Text Tests</h1>
-		<p>Alt-text using alt="{image description}", should describe the intent and or context of the image not random details. If the image adds no info, it can be marked decorative using alt="" or role="none". See "Hide Image Alt Text" below.</p>
+		<p>Examples to test whether an Assistive Technology (AT) will correctly announce alt-text on images.</p>
+		<p><strong>TODO add SVG image tests.</strong></p>
 
-		<strong>Notes</strong>
-		<ul>
-			<li>CSS display:none will not be announced since it is not rendered in DOM vs. role=none that keeps in DOM but removes from AT tree</li>
-			<li>role=none or aria-hidden=true cannot be used on a focussable element or on a parent interactive element</li>
-			<li>longdesc="{long image description}" was deprecated</li>
-		</ul>
-		
+		<hr />
 
 		<section>
 			<h2>Expose Image Semantics</h2>
@@ -56,13 +51,21 @@
 				<img src="https://s3.amazonaws.com/user-media.venngage.com/832544-a70c56a571b24939746430c59d4f8b23.jpg" width="100px"
 					aria-hidden="true">
 			</div>
-
-
 		</section>
 
 	</main>
 
 	<hr>
+
+    <asside aria-labelledby="notes-title">
+        <h2 id="notes-title">Notes</h2>
+		<stron>Alt-text using alt="{image description}", should describe the intent and or context of the image not random details. If the image adds no info, it can be marked decorative using alt="" or role="none". See "Hide Image Alt Text" above.</stron>
+		<ul>
+			<li>CSS display:none will not be announced since it is not rendered in DOM vs. role=none that keeps in DOM but removes from AT tree</li>
+			<li>role=none or aria-hidden=true cannot be used on a focussable element or on a parent interactive element</li>
+			<li>longdesc="{long image description}" was deprecated</li>
+		</ul>
+	</asside>
 
 	<asside aria-labelledby="log-of-testing-title">
         <h2 id="log-of-testing-title">Log of Testing</h2>

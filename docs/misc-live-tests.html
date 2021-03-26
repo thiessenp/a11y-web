@@ -10,16 +10,10 @@
 <body>
     <main>
         <h1>Live Region Tests</h1>
-        <p>Examples for testing focus on whether an Assistive Technology (AT) will correctly announce <strong>Live Regions</strong> on dynamic updates.</p>
-        <strong>Notes</strong>
-        <ul>
-            <li>Live updates announce the related aria-labelledby or aria-label with <em>each update</em>. Keep it brief to avoid being annoying.</li>
-            <li>DOM Inline additions (Text, Span..) cause Elements current contents plus addition to be read on the update (even if default atomic=false).</li>
-            <li>DOM Block and Inline-Block additions cause only the Block's content to be read on the update (with atomic=false)</li>
-            <li>DOM el Styling changes behavior, addition treated as Inline vs Block/Inline-Block described above.</li>
-            <li>Question: region atomic behavior with innerHTML vs. textContent updates for both Inline (text, span) vs Block</li>
-        </ul>
+        <p>Examples to test whether an Assistive Technology (AT) will correctly announce dynamic updates on an element using <strong>Live Region</strong> attributes.</p>
 
+        <hr />
+        
         <section>
             <h2>Live Region Defaults</h2>
             <p>Should announce only new content added to an element based on the <em>defaults aria-relevant="additions text" aria-atomic="false"</em></p>
@@ -99,11 +93,23 @@
 
     <hr>
 
+    <asside aria-labelledby="notes-title">
+        <h2 id="notes-title">Notes</h2>
+        <ul>
+            <li>Live updates announce the related aria-labelledby or aria-label with <em>each update</em>. Keep it brief to avoid being annoying.</li>
+            <li>DOM Inline additions (Text, Span..) cause Elements current contents plus addition to be read on the update (even if default atomic=false).</li>
+            <li>DOM Block and Inline-Block additions cause only the Block's content to be read on the update (with atomic=false)</li>
+            <li>DOM el Styling changes behavior, addition treated as Inline vs Block/Inline-Block described above.</li>
+            <li>Question: region atomic behavior with innerHTML vs. textContent updates for both Inline (text, span) vs Block</li>
+        </ul>
+    </asside>
+
+
     <asside aria-labelledby="log-of-testing-title">
         <h2 id="log-of-testing-title">Log of Testing</h2>
-        <p>Tested on Windows 10 with combinations of screen readers Jaws, NVDA, Narrator, ChromeVox and browsers Chrome, Edge, FF, IE11.</p>
-        <ol>
-            <li>Date: November 19 2020
+        <ul>
+            <li>March 21 2021: Testing Windows 10 Narrator + Edge passes base cases here (mostly). Fails more cases with a more complex DOM. For example Azure ChatBot, Microsoft Teams, and Slack, all fail to announce when a new message is added to the chat log.</li>
+            <li>November 19 2020: Tested above cases on Windows 10 with combinations of screen readers Jaws, NVDA, Narrator, ChromeVox and browsers Chrome, Edge, FF, IE11.
 <pre>
 Jaws/NVDA + Chrome/Edge/FF:
 - do not support roles marquee and timer (updates not announced)
@@ -127,7 +133,7 @@ Jaws + Chrome:
 - aria-relevant=text incorrectly announces adding element
 </pre>                    
             </li>
-        </ol>
+        </ul>
     </asside>
 
 <script>
