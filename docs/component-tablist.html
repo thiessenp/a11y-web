@@ -16,14 +16,6 @@ TODO:
     <main>
         <h1>Tablist Tests</h1>
         <p>Examples for testing whether this Tablist implementation matches the behavior defined in the <a href="https://www.w3.org/TR/wai-aria-practices-1.1/#tabpanel">WAI-ARIA Practices</a> and for sanity the <a href="https://thiessenp.github.io/dhtml-style-guide/#dialogmodal">AOL DHTML Style Guide</a>.</p>
-        <p>Implementation notes:</p>
-        <ul>
-            <li>implemented optional <kbd>Home</kbd>: takes user to beginning of list</li>
-            <li>implemented optional <kbd>End</kbd>: takes user to end of list</li>
-            <li>implemented optional <kbd>Del</kbd>: removes item from tablist (but still in DOM)</li>
-            <li>NOT implemented recommended (key changes on orientation): see notes below - disagree with this.</li>
-            <li>NOT implemented recommended <kbd>Shift + F10</kbd>: would open a popup. Never seen this but will implement if ever do.</li>
-        </ul>
 
         <hr />
 
@@ -127,13 +119,26 @@ TODO:
         </section> 
     </main>
 
-    <hr>
+    <hr />
 
-    <h2>Notes</h2>
-    <ul>
-        <li>2020-12: RECOMMENDATION for <strong>tablist auto-activation</strong> on focus should be enabled by default accodring to ARIA BP. I'm not a fan because it will probably confuse users since when a tab is activate the BP also requires the first focussable/content to be focussed. So s/he will be jumping around chaotically between the tabs. So went with <strong>manual activation by default and auto-activation as a feature/flag</strong>.</li>
-        <li>2020-12: RECOMMENDATION for <strong>aria-orientation</strong> (on role=tablist) set to horizontal/vertical and the key controls change (disable left/right on vertical and up/down on horizontal) depending on the layout. I'm not a fan because this will probably confuse users and I wonder what value does this offer? Who benefits from these semantics - not screen reader users I would think</em>? So did <strong>not implement orientation</strong>.</li>
-    </ul>
+    <asside aria-labelledby="notes-title">
+        <h2 id="notes-title">Implementation notes</h2>
+        <ul>
+            <li>implemented optional <kbd>Home</kbd>: takes user to beginning of list</li>
+            <li>implemented optional <kbd>End</kbd>: takes user to end of list</li>
+            <li>implemented optional <kbd>Del</kbd>: removes item from tablist (but still in DOM)</li>
+            <li>NOT implemented recommended (key changes on orientation): see notes below - disagree with this.</li>
+            <li>NOT implemented recommended <kbd>Shift + F10</kbd>: would open a popup. Never seen this but will implement if ever do.</li>
+        </ul>
+    </asside>
+
+    <asside aria-labelledby="log-of-testing-title">
+        <h2 id="log-of-testing-title">Log of Testing</h2>
+        <ul>
+            <li>2020-12: RECOMMENDATION for <strong>tablist auto-activation</strong> on focus should be enabled by default accodring to ARIA BP. I'm not a fan because it will probably confuse users since when a tab is activate the BP also requires the first focussable/content to be focussed. So s/he will be jumping around chaotically between the tabs. So went with <strong>manual activation by default and auto-activation as a feature/flag</strong>.</li>
+            <li>2020-12: RECOMMENDATION for <strong>aria-orientation</strong> (on role=tablist) set to horizontal/vertical and the key controls change (disable left/right on vertical and up/down on horizontal) depending on the layout. I'm not a fan because this will probably confuse users and I wonder what value does this offer? Who benefits from these semantics - not screen reader users I would think</em>? So did <strong>not implement orientation</strong>.</li>
+        </ul>
+    </asside>
 
     <script src="../dist/index.js"></script>
     <script>

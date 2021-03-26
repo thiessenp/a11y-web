@@ -88,6 +88,7 @@
         </div>
     </div>
 
+
     <main>
         <h1>Dialog Tests</h1>
         <p>
@@ -117,22 +118,24 @@
         </section> 
     </main>
         
-    <hr>
+    <hr />
 
-    <h2>Log</h2>
-    <ul>
-        <li>2021-03: <strong>TODO lookinto how JAWS works with hotkeys (fails for single keys like `a`), currently only works with combo keys (ctrl+q)</strong></li>
-        <li>2020-12: <strong>Multiple modal dialogs open</strong> seems like an anti pattern and major 
-            UI Libraries like Bootstrap do NOT support multiple modals open at once. I think the main 
-            reason against is complexity as argued in 
-            <a href="https://ux.stackexchange.com/questions/52042/is-it-acceptable-to-open-a-modal-popup-on-top-of-another-modal-popup">UX Stackexchange</a>.
-            Should you need a modal style dialog to open from a currently active dialog, you could alow 
-            layering dialogs like in Material UI. Though the only difference is making sure only one 
-            dialog is active at a time. Perhaps a middle ground would be to have only one visible+focussed 
-            dialog at a time, and for the hidden dialogs, have an option to retain their state.
-            <em>Disagree with this but need more data</em>
-        </li>
-    </ul>
+    <asside aria-labelledby="log-of-testing-title">
+        <h2 id="log-of-testing-title">Log of Testing</h2>
+        <ul>
+            <li>2021-03: <strong>TODO lookinto how JAWS works with hotkeys (fails for single keys like `a`), currently only works with combo keys (ctrl+q)</strong></li>
+            <li>2020-12: <strong>Multiple modal dialogs open</strong> seems like an anti pattern and major 
+                UI Libraries like Bootstrap do NOT support multiple modals open at once. I think the main 
+                reason against is complexity as argued in 
+                <a href="https://ux.stackexchange.com/questions/52042/is-it-acceptable-to-open-a-modal-popup-on-top-of-another-modal-popup">UX Stackexchange</a>.
+                Should you need a modal style dialog to open from a currently active dialog, you could alow 
+                layering dialogs like in Material UI. Though the only difference is making sure only one 
+                dialog is active at a time. Perhaps a middle ground would be to have only one visible+focussed 
+                dialog at a time, and for the hidden dialogs, have an option to retain their state.
+                <em>Disagree with this but need more data</em>
+            </li>
+        </ul>
+    </asside>
 
     <script src="../dist/index.js"></script>
     <script>
