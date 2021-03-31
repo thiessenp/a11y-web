@@ -46,7 +46,7 @@
         <hr />
 
         <section>
-            <div class="menu">
+            <div class="menu" id="menu1">
                 <!--
                     behavior:
                     - activates menu list on: enter, space, key down
@@ -81,7 +81,12 @@
         document.addEventListener('DOMContentLoaded', function() {
             console.log('A11yWeb.Menu', A11yWeb.Menu);
 
-            // A11yWeb.Dialog.init();
+            const menu1 = new A11yWeb.Menu({
+                menuEL: document.querySelector('#menu1 .menu--button'), 
+                listEl: document.querySelector('#menu1 .menu--list'), 
+                menuItemsSelector: '#menu1 .menu--button', 
+                listItemsSelector: '#menu1 .menu--list > li'
+            });
 
             // Wire up Dialogs
             // document.querySelectorAll('[data-ayw-dialog]').forEach((containerEl, index) => {
